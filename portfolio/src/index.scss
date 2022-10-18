@@ -1,3 +1,18 @@
+@font-face {
+  font-family: 'futura-medium-bt';
+  src: url('./../public/font/futura-medium-bt.ttf');
+}
+
+@font-face {
+  font-family: 'futura-bc';
+  src: url('./../public/font/FUTURABC.TTF');
+}
+
+@font-face {
+  font-family: 'futura-std-medium';
+  src: url('./../public/font/FuturaStdMedium.otf');
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -10,4 +25,19 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+* {
+  font-family: 'futura-std-medium';
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+h1 {
+  font-family: 'futura-bc';
+}
+
+p {
+  font-family: 'futura-medium-bt';
 }

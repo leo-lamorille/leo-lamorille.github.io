@@ -15,7 +15,6 @@ $secondary-text: #212529;
     background-color: $secondary-color;
 
     .leftSide {
-      font-family: 'futura-std-medium';
       grid-area: left;
       background-color: $primary-color;
       margin: -1px 0 -1px -1px;
@@ -136,6 +135,7 @@ $secondary-text: #212529;
           .time {
             font-style: italic;
             color: #6c757d;
+            font-family: 'futura-std-medium';
           }
         }
       }
