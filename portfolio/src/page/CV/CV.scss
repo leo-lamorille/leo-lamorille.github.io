@@ -1,0 +1,144 @@
+$primary-color: #d4a373;
+$secondary-color: #fefae0;
+$title-primary: #c4cea1;
+$secondary-text: #212529;
+
+.CvContainer {
+  .Cv {
+    display: grid;
+    grid-template:
+    'left right' auto / 35% auto;
+    margin: 10vh 5vw;
+    border: 2px solid $primary-color;
+    border-top-right-radius: 5%;
+    border-bottom-right-radius: 5%;
+    background-color: $secondary-color;
+
+    .leftSide {
+      font-family: 'futura-std-medium';
+      grid-area: left;
+      background-color: $primary-color;
+      margin: -1px 0 -1px -1px;
+      padding-bottom: 5%;
+
+      .avatar {
+        position: relative;
+        width: 100%;
+        margin-top: 2em;
+        margin-bottom: 2em;
+        
+        img {
+            border-radius: 50%;
+            width: 200px;
+            height: 200px;
+            text-align: center;
+            margin: auto;
+            display: flex;
+        }
+      }
+
+      .h2Title {
+        font-size: 2em;
+        text-align: center;
+        margin: 0.5em 0;
+      }
+
+      .contactContainer {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        place-items: center;
+        text-align: center;
+      }
+
+      .content {
+        font-weight: 600;
+        margin: 6%;
+        text-align: center;
+      }
+
+      .cvList {
+        width: 100%;
+        list-style-type: none;
+        font-weight: 600;
+        display: flex;
+        flex-direction: column;
+        place-items: center;
+        text-align: center;
+            
+        li {
+            width: 80%;
+            padding: 2vh 2vw;
+        }
+
+        li:nth-child(2n) {
+          background-color: $secondary-color;
+        }
+      }
+
+      .infos {
+        width: 100%;
+        font-size: 18px;
+        list-style-type: none;
+        font-weight: 600;
+        li {
+          padding : 1vh 1vw;
+          .material-icons{
+            display: inline-flex;
+            vertical-align: top;
+          }
+        }
+      }
+    }
+    .rightSide {
+      grid-area: right;
+      margin: 5%;
+      color: $secondary-text;
+      .name {
+        p {
+          margin: 2% 0;
+          font-weight: bold;
+        }
+        .firstName {
+          font-size: 2em;
+          color: $primary-color;
+        }
+        .lastName {
+          font-size: 2.5em;
+          color: $title-primary;
+        }
+        .job {
+          font-size: 2em;
+        }
+      }
+      .container {
+        .title {
+          font-size: 2em;
+          margin-top: 1.5em;
+          font-weight: bold;
+          border-bottom: 4px solid $title-primary;
+        }
+        .content {
+          list-style-type: none;
+          padding: 0;
+          font-weight: 600;
+          li {
+            margin: 2% 0;
+            p {
+              margin: 0;
+            }
+          }
+
+          .second-title {
+            font-weight: bold;
+            font-size: 1.2em;
+          }
+          .time {
+            font-style: italic;
+            color: #6c757d;
+          }
+        }
+      }
+    }
+  }
+}
