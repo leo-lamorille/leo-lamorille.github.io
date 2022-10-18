@@ -47,7 +47,7 @@ export const CV = () => {
                 <div className="container">
                     <h2 className="title">About me</h2>
                     <ul className="content">
-                        <li><p className="second-title">Currently an apprentice web developer at Proxiad. I work in the Digital Lab team of Kiabi.</p></li>
+                        <li><p className="second-title">Currently an apprentice research engineer at Proxiad. I work in the Digital Lab team of Kiabi.</p></li>
                     </ul>
                     <h2 className="title">Training</h2>
                     <ul className="content">

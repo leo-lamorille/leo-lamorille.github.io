@@ -1,7 +1,4 @@
-$primary-color: #d4a373;
-$secondary-color: #fefae0;
-$title-primary: #c4cea1;
-$secondary-text: #212529;
+@import './../../variables.scss';
 
 .CvContainer {
   .Cv {
@@ -33,6 +30,7 @@ $secondary-text: #212529;
             text-align: center;
             margin: auto;
             display: flex;
+            border: 1px solid #252525;
         }
       }
 
