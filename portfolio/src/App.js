@@ -7,7 +7,6 @@ import { Navbar } from './component/Navbar';
 export const App = () => {
   return (
     <div className="App">
-      <Navbar />
       <Routes>
         <Route index element={ <Home />} />
         <Route path="/my-cv" element={<CV />} />

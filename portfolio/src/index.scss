@@ -41,3 +41,12 @@ h1 {
 p {
   font-family: 'futura-medium-bt';
 }
+
+::-webkit-scrollbar-thumb {
+  background: #fff;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  background-color: #252525;
+}
