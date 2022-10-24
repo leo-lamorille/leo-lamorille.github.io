@@ -7,7 +7,7 @@ export const Dialog = ({open, setOpen, title, job, description, children}) => {
 
     return (
         <div className={`modal-container ${open ? 'open' : 'close'}`} onClick={toggle}>
-            <div class="modal-background">
+            <div className="modal-background">
                 <div className="modal">
                     <div className="modal-title">
                         <h1>{title}</h1>

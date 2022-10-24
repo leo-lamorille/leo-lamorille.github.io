@@ -4,6 +4,9 @@ import { Dialog } from '../../component/Dialog/Dialog';
 import { ReactLogo } from '../../component/Logo/ReactLogo';
 import { AngularLogo } from '../../component/Logo/AngularLogo';
 import { SpringLogo } from '../../component/Logo/SpringLogo';
+import { ExpandArrow } from '../../component/ExpandArrow';
+import { Link } from 'react-router-dom';
+
 
 export const Home = () => {
     const [openKiabi, setOpenKiabi] = useState(false);
@@ -64,6 +67,11 @@ export const Home = () => {
                     <span style={{"--i" : 4}}>O</span>
                 </div>
                 <div className="job"><span>Apprentice research engineer</span></div>
+                <div className="arrow">
+                    <a href="#professional-container">
+                        <ExpandArrow />
+                    </a>
+                </div>
             </section>
             <section id="professional-container" onClick={toggleFalse}>
                 <h1>Professional experience</h1>
@@ -116,7 +124,7 @@ export const Home = () => {
                     description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi natus ratione alias dolore quaerat dolores animi adipisci placeat, architecto amet reprehenderit libero quia ipsa cumque! Eius rem dicta temporibus explicabo?" 
                  />
             </section>
-            <section>Salut</section>
+            <section id="#test">Salut</section>
             <section>Salut2</section>
             <section>Salut3</section>
         </div>
