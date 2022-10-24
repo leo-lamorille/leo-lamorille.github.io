@@ -92,13 +92,25 @@
                     font-size: 1em;
                 }
 
-                &:hover::after {
-                    content: 'open';
-                    position: absolute;
-                    color: #252525;
-                    top: 1em;
-                    right: 0;        
+                span {
+                    display: flex;
+
+                    svg {
+                        position: absolute;
+                        width: 50px;
+                        height: auto;
+                        right: 0;
+                    }
                 }
+
+
+                // &:hover::after {
+                //     content: 'open';
+                //     position: absolute;
+                //     color: #252525;
+                //     top: 1em;
+                //     right: 0;        
+                // }
             }
         }
     }

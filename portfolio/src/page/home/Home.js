@@ -4,7 +4,8 @@ import { Dialog } from '../../component/Dialog/Dialog';
 import { ReactLogo } from '../../component/Logo/ReactLogo';
 import { AngularLogo } from '../../component/Logo/AngularLogo';
 import { SpringLogo } from '../../component/Logo/SpringLogo';
-import { ExpandArrow } from '../../component/ExpandArrow';
+import { ExpandArrow } from '../../component/Clickable/ExpandArrow';
+import { RigthArrow } from '../../component/Clickable/RigthArrow';
 
 
 export const Home = () => {
@@ -37,14 +38,6 @@ export const Home = () => {
         setOpenGarbage(!openGarbage);
         setOpenProxiad(false);
     }
-    const toggleFalse = () => {
-        if (openKiabi || openBulgaria || openGarbage || openProxiad) {
-            setOpenKiabi(false);
-            setOpenBulgaria(false);
-            setOpenGarbage(false);
-            setOpenProxiad(false);
-        }
-    }
 
     return (
         <div className="home-container">
@@ -72,23 +65,35 @@ export const Home = () => {
                     </a>
                 </div>
             </section>
-            <section id="professional-container" onClick={toggleFalse}>
+            <section id="professional-container">
                 <h1>Professional experience</h1>
                 <ul>
                     <li onClick={toggleKiabi}>
-                        <p>Kiabi – Fullstack Developer trainee</p>
+                        <span>
+                            <p>Kiabi – Fullstack Developer trainee</p>
+                            <RigthArrow />
+                        </span>
                         <p className="time">From July 2021 to Today</p>
                     </li>
                     <li onClick={toggleBulgaria}>
-                        <p>Proxiad service Center in Plovdiv (Bulgaria) – Web Developer trainee</p>
+                        <span>
+                            <p>Proxiad service Center in Plovdiv (Bulgaria) – Web Developer trainee</p>
+                            <RigthArrow />
+                        </span>
                         <p className="time">From Mai 2022 to July 2022</p>
                     </li>
                     <li onClick={toggleProxiad}>
-                        <p>Proxiad service Center in Lille – Web Developer trainee</p>
+                        <span>
+                            <p>Proxiad service Center in Lille – Web Developer trainee</p>
+                            <RigthArrow />
+                        </span>
                         <p className="time">From September 2020 to July 2021</p>    
                     </li>
                     <li onClick={toggleGarbage}>
-                        <p>Garbage Collector</p>
+                        <span>
+                            <p>Garbage Collector</p>
+                            <RigthArrow />
+                        </span>
                         <p className="time">August 2018 and July 2019</p>
                     </li>
                 </ul>

@@ -32,19 +32,29 @@
 }
 
 .modal-background {
-    display:table-cell;
+    display: table-cell;
     background: rgba(37,37,37,0.9);
-    text-align:center;
-    vertical-align:middle;
+    text-align: center;
+    vertical-align: middle;
     .modal {
       background:white;
-      padding:50px;
-      display:inline-block;
-      border-radius:3px;
-      font-weight:300;
-      position:relative;
+      padding: 50px;
+      display: inline-block;
+      border-radius: 30px;
+      font-weight: 300;
+      position: relative;
       width: 80%;
       opacity: 1;
+
+      svg {
+        margin: 1em;
+        width: 50px;
+        height: auto;
+        position: absolute;
+        right: 0;
+        top: 0;
+        cursor: pointer;
+      }
 
       & > * {
         margin: 1.5em 0;
