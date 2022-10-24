@@ -5,7 +5,6 @@ import { ReactLogo } from '../../component/Logo/ReactLogo';
 import { AngularLogo } from '../../component/Logo/AngularLogo';
 import { SpringLogo } from '../../component/Logo/SpringLogo';
 import { ExpandArrow } from '../../component/ExpandArrow';
-import { Link } from 'react-router-dom';
 
 
 export const Home = () => {
