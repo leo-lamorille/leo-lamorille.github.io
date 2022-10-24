@@ -128,9 +128,6 @@ export const Home = () => {
                     description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi natus ratione alias dolore quaerat dolores animi adipisci placeat, architecto amet reprehenderit libero quia ipsa cumque! Eius rem dicta temporibus explicabo?" 
                  />
             </section>
-            <section id="#test">Salut</section>
-            <section>Salut2</section>
-            <section>Salut3</section>
         </div>
     );
 }
