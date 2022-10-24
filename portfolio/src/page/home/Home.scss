@@ -42,6 +42,54 @@
             color: #adb5bd;
         }
     }
+
+    #professional-container {
+        position: relative;
+        padding-top: 3.5em;
+        h1 {
+            text-align: center;
+            font-size: 2.5em;
+        }
+
+        .card-container {
+            display: flex;
+            width: 100vw;
+            flex-wrap: wrap;
+            justify-content: center;
+
+            & > * {
+                margin: 3em;
+            }
+        }
+
+        ul {
+            list-style-type: none;
+            margin: 2em;
+
+            li {
+                position: relative;
+                cursor: pointer;
+                font-size: 1.5em;
+                padding: 10px 0;
+                margin: 2em 0;
+                border-bottom: 3px solid #252525;
+
+                .time {
+                    color: #6c757d;
+                    font-style: italic;
+                    font-size: 1em;
+                }
+
+                &:hover::after {
+                    content: 'open';
+                    position: absolute;
+                    color: #252525;
+                    top: 1em;
+                    right: 0;        
+                }
+            }
+        }
+    }
 }
 
 @keyframes wave {
