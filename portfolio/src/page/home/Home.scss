@@ -45,6 +45,8 @@
         .arrow {
             text-align: center;
             margin: 1em 0;
+            position: relative;
+            animation: downArrow 1.5s infinite;
 
             svg {
                 width: 80px;
@@ -108,5 +110,14 @@
     }
     20% {
         transform: translateY(-20px)
+    }
+}
+
+@keyframes downArrow {
+    0%, 40%, 100% {
+        transform: translateY(0);
+    }
+    20% {
+        transform: translateY(35px);
     }
 }
