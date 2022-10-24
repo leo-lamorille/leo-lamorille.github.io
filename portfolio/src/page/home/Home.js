@@ -6,6 +6,9 @@ import { AngularLogo } from '../../component/Logo/AngularLogo';
 import { SpringLogo } from '../../component/Logo/SpringLogo';
 import { ExpandArrow } from '../../component/Clickable/ExpandArrow';
 import { RigthArrow } from '../../component/Clickable/RigthArrow';
+import { FirebaseLogo } from '../../component/Logo/FirebaseLogo';
+import { GoogleCloudLogo } from '../../component/Logo/GoogleCloudLogo';
+import { HibernateLogo } from '../../component/Logo/HibernateLogo';
 
 
 export const Home = () => {
@@ -101,31 +104,40 @@ export const Home = () => {
                     setOpen={setOpenKiabi}
                     title="KIABI" 
                     job="Fullstack Developer trainee" 
-                    description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi natus ratione alias dolore quaerat dolores animi adipisci placeat, architecto amet reprehenderit libero quia ipsa cumque! Eius rem dicta temporibus explicabo?" 
+                    description="We are a small team doing proof of concept for internal customers at Kiabi. We use the latest technologies to test them in our projects.
+                    We carry out Proof of Concept and test new technologies to be implemented at Kiabi.
+                    I was able to strongly reinforce my skills thanks to the realization of various POC." 
                  >
                     <ReactLogo />
                     <AngularLogo />
                     <SpringLogo />
-                    <SpringLogo />
-                    <SpringLogo />
+                    <GoogleCloudLogo />
+                    <FirebaseLogo />
+                    <HibernateLogo />
                  </Dialog>
                  <Dialog open={openBulgaria}
                     setOpen={setOpenBulgaria}
                     title="PROXIAD service Center in Plovdiv" 
                     job="Web Developer trainee" 
-                    description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi natus ratione alias dolore quaerat dolores animi adipisci placeat, architecto amet reprehenderit libero quia ipsa cumque! Eius rem dicta temporibus explicabo?" 
-                 />
+                    description="In order to validate my engineering diploma, I had to realize an internship of Java developer during 8 weeks abroad.
+                    I realized this internship in the subsidiary of Proxiad in Plovdiv." 
+                 >
+                    <SpringLogo />
+                 </Dialog>
                  <Dialog open={openProxiad}
                     setOpen={setOpenProxiad}
                     title="PROXIAD service Center in Lille" 
                     job="Fullstack Developer trainee" 
-                    description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi natus ratione alias dolore quaerat dolores animi adipisci placeat, architecto amet reprehenderit libero quia ipsa cumque! Eius rem dicta temporibus explicabo?" 
+                    description="I started my apprenticeship at the Proxiad service center.
+                    I worked on internal web projects.
+                    I had the opportunity to gain my first skills on Angular and SpringBoot frameworks." 
                  />
                  <Dialog open={openGarbage}
                     setOpen={setOpenGarbage}
-                    title="Garbage Collector" 
-                    job="Ripper" 
-                    description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi natus ratione alias dolore quaerat dolores animi adipisci placeat, architecto amet reprehenderit libero quia ipsa cumque! Eius rem dicta temporibus explicabo?" 
+                    title="CAPSO" 
+                    job="Garbage Collector" 
+                    description="During two summer jobs, I had the opportunity to work as a garbage collector.
+                    I was able to discover the world of work and earn my first salary." 
                  />
             </section>
         </div>
