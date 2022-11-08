@@ -10,6 +10,7 @@ import { FirebaseLogo } from '../../component/Logo/FirebaseLogo';
 import { GoogleCloudLogo } from '../../component/Logo/GoogleCloudLogo';
 import { HibernateLogo } from '../../component/Logo/HibernateLogo';
 import { Navbar } from '../../component/Navbar';
+import { Card } from '../../component/Card/Card';
 
 
 export const Home = () => {
@@ -142,6 +143,20 @@ export const Home = () => {
                         description="During two summer jobs, I had the opportunity to work as a garbage collector.
                         I was able to discover the world of work and earn my first salary." 
                     />
+                </section>
+                <section id="training-container" className="training-container">
+                    <div className="training-title">
+                        <h2 className="title">Training</h2>
+                    </div>
+                    <div className="training-content">
+                        <Card title={'ISEN-LILLE'} content={'Informatical Engineering Degree ISEN'} time={'Today'} color={'sunny'} src="/JUNIA_ISEN.png" />
+                        <Card title={'University Technology technology Diploma Electrical Engineering and Industrial Computer Science, Speciality Computer Science'} content={'Informatical Engineering Degree ISEN'} time={'From 2018 to 2020'} color={'wood'} src="/Logo_officiel_DUT_GEII.png" />
+                        <Card title={'Vauban High School'} content={'High School Degree in science, speciality mathematics, sport option'} time={'June 2018'} color={'whynter'} src="/vauban.png" />
+                    </div>
+                    <div id="bubble-1" className="bubble"></div>
+                    <div id="bubble-2" className="bubble"></div>
+                    <div id="bubble-3" className="bubble"></div>
+                    <div id="bubble-4" className="bubble"></div>
                 </section>
             </div>
         </>

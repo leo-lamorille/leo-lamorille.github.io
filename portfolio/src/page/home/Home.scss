@@ -1,10 +1,4 @@
 .home-container {
-    .Salut {
-        color: #fff;
-        position: absolute;
-        top: 0;
-        left: 10;
-    }
     section {
         scroll-snap-align: start;
         scroll-snap-stop: always;
@@ -111,6 +105,95 @@
             }
         }
     }
+
+    .training-container {
+        height: inherit;
+        position: relative;
+        align-items: center;
+        padding: 5.5em 0;
+        z-index: 0;
+        overflow: hidden;
+
+        .training-title {
+            position: relative;
+            color:#fff;
+            text-align: center;
+            z-index: 5;
+            .title {
+                font-size: 2em;
+            }
+        }
+
+        .training-content {
+            z-index: 1;
+            margin: 2em 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            
+            & > * {
+                margin: 5% 0;
+            }
+        }
+
+        .bubble {
+            position: absolute;
+            z-index: 1;
+            border-radius: 90px;
+        }
+
+        #bubble-1 {
+            width: 100px;
+            height: 100px;
+            top: 10%;
+            left: 10%;
+            background: linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 50%, rgba(252,176,69,1) 100%);
+            transform: scale(1);
+            animation: bubble ease infinite 3s;
+        }
+
+        #bubble-2 {
+            width: 150px;
+            height: 150px;
+            right: 5%;
+            top: 5%;
+            transform: matrix(1, 0, 0, 1, 0, 0);
+            animation: bubble ease 10s infinite;
+            background: linear-gradient(90deg, rgba(94,96,206,1) 0%, rgba(83,144,217,1) 25%, rgba(86,207,225,1) 50%, rgba(114,239,221,1) 75%, rgba(128,255,219,1) 100%);
+        }
+
+        #bubble-3 {
+            width: 150px;
+            height: 150px;
+            left: 10%;
+            top: 50%;
+            animation: bubble ease 2.5s infinite;
+            background: linear-gradient(90deg, rgba(255,10,84,1) 0%, rgba(255,133,161,1) 50%, rgba(247,202,208,1) 100%);
+        }
+
+        #bubble-4 {
+            width: 175px;
+            height: 175px;
+            right: 10%;
+            bottom: 5%;
+            transform: matrix(1, 0, 0, 1, 0, 0);
+            background: linear-gradient(90deg, rgba(212,162,118,1) 0%, rgba(164,113,72,1) 25%, rgba(111,69,24,1) 50%, rgba(88,49,1,1) 75%, rgba(46,25,0,1) 100%);
+            animation: bubble ease 1s infinite;
+        }
+    }
+}
+
+@keyframes bubble {
+    0% {
+        transform: scale(1)
+    }
+    50% {
+        transform: scale(1.5)
+    }
+    100% {
+        transform: scale(1)
+    }
 }
 
 @keyframes wave {
@@ -148,6 +231,7 @@
         .professional-container {
             ul {
                 li {
+                    font-size: 1em;
                     span {
                         svg {
                             display: none;
