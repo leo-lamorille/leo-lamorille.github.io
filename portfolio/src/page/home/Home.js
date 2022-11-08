@@ -150,7 +150,7 @@ export const Home = () => {
                     </div>
                     <div className="training-content">
                         <Card title={'ISEN-LILLE'} content={'Informatical Engineering Degree ISEN'} time={'Today'} color={'whynter'} src="/JUNIA_ISEN.png" />
-                        <Card title={'DUT GEII'} content={'University Technology technology Diploma Electrical Engineering and Industrial Computer Science, Speciality Computer Science'} time={'From 2018 to 2020'} color={'sunny'} src="/DUT-GEII.png" />
+                        <Card title={'DUT GEII'} content={'University Technology technology Diploma Electrical Engineering and Industrial Computer Science, Speciality Computer Science'} time={'From 2018 to 2020'} color={'sunny'} src="/dut.png" />
                         <Card title={'Vauban High School'} content={'High School Degree in science, speciality mathematics, sport option'} time={'June 2018'} color={'wood'} src="/vauban.png" />
                     </div>
                     <div id="bubble-1" className="bubble"></div>
