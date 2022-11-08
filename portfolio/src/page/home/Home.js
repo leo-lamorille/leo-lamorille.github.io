@@ -46,7 +46,7 @@ export const Home = () => {
 
     return (
         <>
-            <Navbar />
+            {/* <Navbar /> */}
             <div className="home-container">
                 <section id="about-container" className="about-container">
                     <div className="wave name">
@@ -149,9 +149,9 @@ export const Home = () => {
                         <h2 className="title">Training</h2>
                     </div>
                     <div className="training-content">
-                        <Card title={'ISEN-LILLE'} content={'Informatical Engineering Degree ISEN'} time={'Today'} color={'sunny'} src="/JUNIA_ISEN.png" />
-                        <Card title={'University Technology technology Diploma Electrical Engineering and Industrial Computer Science, Speciality Computer Science'} content={'Informatical Engineering Degree ISEN'} time={'From 2018 to 2020'} color={'wood'} src="/Logo_officiel_DUT_GEII.png" />
-                        <Card title={'Vauban High School'} content={'High School Degree in science, speciality mathematics, sport option'} time={'June 2018'} color={'whynter'} src="/vauban.png" />
+                        <Card title={'ISEN-LILLE'} content={'Informatical Engineering Degree ISEN'} time={'Today'} color={'whynter'} src="/JUNIA_ISEN.png" />
+                        <Card title={'University Technology technology Diploma Electrical Engineering and Industrial Computer Science, Speciality Computer Science'} content={'Informatical Engineering Degree ISEN'} time={'From 2018 to 2020'} color={'sunny'} src="/Logo_officiel_DUT_GEII.png" />
+                        <Card title={'Vauban High School'} content={'High School Degree in science, speciality mathematics, sport option'} time={'June 2018'} color={'wood'} src="/vauban.png" />
                     </div>
                     <div id="bubble-1" className="bubble"></div>
                     <div id="bubble-2" className="bubble"></div>
