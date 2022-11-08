@@ -133,3 +133,23 @@
       transform:scaleY(.005) scaleX(0);
     }
 }
+
+@media screen and (max-width: 600px) {
+  .modal-container {
+    .modal {
+      padding: 0 20px;
+
+      .modal-title {
+        p {
+          font-size: 1.5em;
+        }
+      }
+
+      .modal-content {
+        .description {
+          font-size: 1em;
+        }
+      }
+    }
+  }
+}

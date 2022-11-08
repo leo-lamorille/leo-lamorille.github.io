@@ -1,4 +1,10 @@
 .home-container {
+    .Salut {
+        color: #fff;
+        position: absolute;
+        top: 0;
+        left: 10;
+    }
     section {
         scroll-snap-align: start;
         scroll-snap-stop: always;
@@ -9,7 +15,7 @@
         }
     }
 
-    #about-container {
+    .about-container {
         scroll-snap-align: start;
         scroll-snap-stop: always;
         font-size: 2em;
@@ -55,7 +61,7 @@
         }
     }
 
-    #professional-container {
+    .professional-container {
         position: relative;
         padding-top: 5.5em;
         h1 {
@@ -122,5 +128,33 @@
     }
     20% {
         transform: translateY(35px);
+    }
+}
+
+@media screen and (max-width: 730px) {
+    .about-container {
+        font-size: 1.5em;
+        background-color: red;
+    }
+}
+
+@media screen and (max-width: 530px) {
+    .home-container {
+
+        .about-container {
+            font-size: 1em;
+        }
+
+        .professional-container {
+            ul {
+                li {
+                    span {
+                        svg {
+                            display: none;
+                        }
+                    }
+                }
+            }
+        }
     }
 }

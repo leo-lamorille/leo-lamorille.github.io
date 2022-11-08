@@ -47,7 +47,7 @@ export const Home = () => {
         <>
             <Navbar />
             <div className="home-container">
-                <section id="about-container">
+                <section id="about-container" className="about-container">
                     <div className="wave name">
                         <span style={{"--i" : 1}}>L</span>
                         <span style={{"--i" : 2}}>A</span>
@@ -71,7 +71,7 @@ export const Home = () => {
                         </a>
                     </div>
                 </section>
-                <section id="professional-container">
+                <section id="professional-container" className="professional-container">
                     <h1>Professional experience</h1>
                     <ul>
                         <li onClick={toggleKiabi}>
