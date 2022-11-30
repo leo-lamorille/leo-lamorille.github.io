@@ -1,4 +1,8 @@
 .home-container {
+    .wip {
+        display: none!important;
+    }
+
     section {
         scroll-snap-align: start;
         scroll-snap-stop: always;
@@ -214,13 +218,6 @@
     }
 }
 
-@media screen and (max-width: 730px) {
-    .about-container {
-        font-size: 1.5em;
-        background-color: red;
-    }
-}
-
 @media screen and (max-width: 530px) {
     .home-container {
 
@@ -260,5 +257,20 @@
                 right: 30%;
             }
         }
+    }
+}
+
+@media screen and (max-width: 800px) {
+    .home-container {
+        
+        section {
+            display: none!important;
+        }
+
+        .wip {
+            display: flex!important;
+            background-color: #252525;
+        }
+
     }
 }

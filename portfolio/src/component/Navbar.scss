@@ -27,3 +27,10 @@
         background-color: #4f4f4f;
     }
 }
+
+
+@media (max-width: 800px) {
+    .navbar-container {
+        display: none;
+    }
+}    
