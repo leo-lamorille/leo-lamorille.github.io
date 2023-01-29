@@ -1,5 +1,5 @@
 import './Logo.scss';
 
 export const GoogleCloudLogo = () => {
-    return <img src="/google-cloud-logo.png" alt="google cloud logo" />
+    return <img className="logo" src="/google-cloud-logo.png" alt="google cloud logo" />
 }

@@ -71,6 +71,9 @@ export const Home = () => {
                             <ExpandArrow />
                         </a>
                     </div>
+                    <a href="https://www.linkedin.com/in/l%C3%A9o-lamorille-9074ba1a7">
+                        <img src="/Linkedin-logo.png" alt="linkedin logo" />
+                    </a>
                 </section>
                 <section id="professional-container" className="professional-container">
                     <h1>Professional experience</h1>

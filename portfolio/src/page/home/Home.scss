@@ -11,7 +11,8 @@
         }
     }
 
-    .about-container { 
+    .about-container {
+        position: relative;
         font-size: 2em;
         display: flex;
         flex-direction: column;
@@ -51,6 +52,19 @@
             svg {
                 width: 80px;
                 height: auto;
+            }
+        }
+
+        a {
+            cursor: pointer;
+            
+            img {
+                width: 100px;
+                height: 100px;
+                position: absolute;
+                right: 5%;
+                bottom: 5%;
+                animation: shaking infinite 500ms;
             }
         }
     }
@@ -247,6 +261,12 @@
         transform: translateY(35px);
     }
 }
+
+@keyframes shaking {
+    0%, 25%, 35%, 100% {transform: rotate(0);}
+    20% {transform: rotate(5deg) }
+    30% {transform: rotate(-5deg);}
+  }
 
 @media screen and (max-width: 530px) {
     .home-container {
