@@ -1,8 +1,4 @@
 .home-container {
-    .wip {
-        display: none!important;
-    }
-
     section {
         height: 100vh;
 
@@ -57,7 +53,7 @@
 
         a {
             cursor: pointer;
-            
+
             img {
                 width: 100px;
                 height: 100px;
@@ -187,7 +183,7 @@
 
         .bubble {
             position: absolute;
-            z-index: 1;
+            z-index: -5;
             border-radius: 90px;
         }
 
@@ -268,11 +264,18 @@
     30% {transform: rotate(-5deg);}
   }
 
-@media screen and (max-width: 530px) {
+@media screen and (max-width: 600px) {
     .home-container {
 
         .about-container {
             font-size: 1em;
+
+            a {
+                img {
+                    width: 50px;
+                    height: 50px;
+                }
+            }
         }
 
         .professional-container {
@@ -290,14 +293,35 @@
     }
 }
 
-@media screen and (min-width: 800px) {
+@media screen and (max-width: 900px) {
     .home-container {
         .training-container {
+            display: flex;
+            flex-direction: column;
+            .training-grid {
+                overflow: hidden;
+                display: flex;
+                flex-direction: column;
+
+                .training-title {
+                    position: relative;
+                    display: flex;
+                    flex-direction: column;
+                    text-align: center;
+                    margin: 0 1em;
+
+                    h2 {
+                        position: relative;
+                    }
+                }
+            }
             #bubble-1 {
                 left: 20%;
             }
             #bubble-2 {
-                right: 23%;
+                z-index: -5;
+                top: 30%;
+                right: 0.2em;
             }
             #bubble-3 {
                 left: 30%;
@@ -307,20 +331,5 @@
                 right: 30%;
             }
         }
-    }
-}
-
-@media screen and (max-width: 800px) {
-    .home-container {
-        
-        section {
-            display: none!important;
-        }
-
-        .wip {
-            display: flex!important;
-            background-color: #252525;
-        }
-
     }
 }

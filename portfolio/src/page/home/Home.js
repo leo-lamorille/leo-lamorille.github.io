@@ -168,26 +168,6 @@ export const Home = () => {
                     <div id="bubble-3" className="bubble"></div>
                     <div id="bubble-4" className="bubble"></div>
                 </section>
-                <section id="about-container" className="about-container wip">
-                    <div className="wave name">
-                        <span style={{"--i" : 1}}>M</span>
-                        <span style={{"--i" : 2}}>O</span>
-                        <span style={{"--i" : 3}}>B</span>
-                        <span style={{"--i" : 4}}>I</span>
-                        <span style={{"--i" : 5}}>L</span>
-                        <span style={{"--i" : 6}}>E</span>
-                    </div>
-                    <div className="wave firstname">
-                        <span style={{"--i" : 1}}>V</span>
-                        <span style={{"--i" : 2}}>E</span>
-                        <span style={{"--i" : 4}}>R</span>
-                        <span style={{"--i" : 4}}>S</span>
-                        <span style={{"--i" : 4}}>I</span>
-                        <span style={{"--i" : 4}}>O</span>
-                        <span style={{"--i" : 4}}>N</span>
-                    </div>
-                    <div className="job"><span>Work In Progress...</span></div>
-                </section>
             </div>
         </>
     );
