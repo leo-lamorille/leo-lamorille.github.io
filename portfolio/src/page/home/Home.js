@@ -151,7 +151,7 @@ export const Home = () => {
                                 <h2>Training</h2>
                                 <p>I went through a scientific baccalaureate with a specialization in mathematics.</p>
                                 <p>I then prepared for 2 years a DUT GEII.</p>
-                                <p>Finally, I am currently preparing a degree in computer engineering</p>
+                                <p>Finally, I am currently preparing a degree in computer engineering.</p>
                             </div>
                         </div>
                         <div className="training-content">
