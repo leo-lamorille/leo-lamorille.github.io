@@ -116,16 +116,6 @@
             }
         }
     }
-
-    &:target, &:active {
-        .card-div {
-            transform: rotateY(180deg);
-        }
-
-        .card-back {
-            transform: rotateY(180deg);
-        }
-    }
 }
 
 @media screen and (min-width: 850px) {
@@ -140,5 +130,22 @@
                 transform: rotateY(180deg);
             }
         }
+    }
+}
+
+@media screen and (max-width: 850px) {
+    .card-container {
+        .card-div {
+            animation: rotating 3s infinite;
+        }
+    }
+}
+
+@keyframes rotating {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    50% {
+        transform: translateX(10px);
     }
 }
