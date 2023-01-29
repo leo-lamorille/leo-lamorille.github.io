@@ -5,6 +5,9 @@
     width: 350px;
     height: 400px;
     border-radius: 45px;
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none; /* Standard syntax */
 
     .card-div {
         position: relative;
@@ -114,8 +117,12 @@
         }
     }
 
-    &:active {
+    &:target, &:active {
         .card-div {
+            transform: rotateY(180deg);
+        }
+
+        .card-back {
             transform: rotateY(180deg);
         }
     }

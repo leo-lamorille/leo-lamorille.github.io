@@ -296,10 +296,10 @@
 @media screen and (max-width: 900px) {
     .home-container {
         .training-container {
+            overflow: hidden;
             display: flex;
             flex-direction: column;
             .training-grid {
-                overflow: hidden;
                 display: flex;
                 flex-direction: column;
 
