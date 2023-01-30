@@ -253,6 +253,134 @@
             animation: bubble ease 1s infinite;
         }
     }
+
+    .skills-container {
+        position: relative;
+        width: 100%;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+
+        .title {
+            width: 100%;
+            font-size: 2em;
+            text-align: center;
+            letter-spacing: 2px;
+        }
+
+        .skills-list {
+            position: absolute;
+            top: 30%;
+            list-style: none;
+            font-size: 2em;
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            width: 100%;
+
+            li {
+                display: flex;
+                overflow: hidden;
+                margin-bottom: 1em;
+
+                span {     
+                    display: block;  
+                    text-transform: uppercase;
+                    letter-spacing: 3px;
+                    transform: translateY(100%);
+                    transition: 1s ease-out;
+
+                    &.active {
+                        transform: translateY(0);
+                        transition: 1s ease-out;
+                    }
+                }
+            }
+
+            .java {
+                justify-content: center;
+                width: 100%;
+                
+                span {
+                    width: 100%;
+                    justify-content: center;
+                    color: #560bad;
+
+                }
+            }
+
+            .spring {
+                justify-content: flex-start;
+                width: 100%;
+                
+                span {
+                    display: flex;
+                    width: 100%;
+                    justify-content: flex-start;
+                }
+            }
+
+            .js {
+                justify-content: flex-start;
+                width: 80%;
+                
+                span {
+                    color: #ffb700;
+                    display: flex;
+                    width: 100%;
+                    justify-content: end;
+                }
+            }
+
+            .ts {
+                justify-content: flex-start;
+                width: 100%;
+                
+                span {
+                    display: flex;
+                    color: #ff7b00;
+                    width: 100%;
+                    justify-content: end;
+                }
+            }
+
+            .react {
+                justify-content: flex-start;
+                width: 60%;
+                margin: 1em 0;
+                color: #40916c;
+                
+                span {
+                    font-size: 2em;
+                    display: flex;
+                    width: 100%;
+                    justify-content: end;
+                    align-items: center;
+
+                    p {
+                        margin-left: 10px;
+                        font-size: 0.2em;
+                    }
+                }
+            }
+
+            .angular {
+                justify-content: flex-start;
+                width: 50%;
+                font-size: 2em;
+                color: #ae2012;
+                
+                span {
+                    display: flex;
+                    width: 100%;
+                    justify-content: end;
+                }
+            }
+            
+        }
+    }
 }
 
 @keyframes bubble {
@@ -307,6 +435,9 @@
             .language-button {          
                 width: 30px;
                 height: 30px;
+                top: auto;
+                bottom: 5%;
+                left: 5%;
 
                 img {
                     width: 30px;
@@ -366,6 +497,40 @@
             #bubble-4 {
                 bottom: 30%;
                 right: 30%;
+            }
+        }
+
+        .skills-container {
+            display: flex;
+            flex-direction: column;
+            .skills-list {
+                position: relative;
+                display: flex;
+                flex-direction: column;
+                top: 10%;
+
+                li {
+                    width: 100%;
+                    justify-content: center;
+
+                    span {
+                        width: 100%;
+                        justify-content: center;
+                    }
+                }
+
+                .react {
+                    width: 100%;
+                    font-size: 1em;
+                    
+                    p {
+                        font-size: 0.8em;
+                    }
+                }
+    
+                .angular {
+                    font-size: 1em;
+                }
             }
         }
     }

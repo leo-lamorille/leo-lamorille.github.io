@@ -1,5 +1,6 @@
 import './Home.scss';
 import {useState} from 'react';
+import { useInView } from "react-intersection-observer";
 import { Dialog } from '../../component/Dialog/Dialog';
 import { ReactLogo } from '../../component/Logo/ReactLogo';
 import { AngularLogo } from '../../component/Logo/AngularLogo';
@@ -20,6 +21,10 @@ export const Home = () => {
     const [openBulgaria, setOpenBulgaria] = useState(false);
     const [openGarbage, setOpenGarbage] = useState(false);
     const { t, i18n } = useTranslation(['translation', 'common']);
+
+    const {ref, inView} = useInView({
+        threshold: 0.0
+    });
     
     const changeLanguage = () => {
         i18n.language === 'fr' ? i18n.changeLanguage('en') : i18n.changeLanguage('fr');
@@ -170,6 +175,29 @@ export const Home = () => {
                     <div id="bubble-2" className="bubble"></div>
                     <div id="bubble-3" className="bubble"></div>
                     <div id="bubble-4" className="bubble"></div>
+                </section>
+                <section className="skills-container" id="skills-container">
+                    <h1 className="title">{t('skills.title')}</h1>
+                    <ul className="skills-list">
+                        <li className="java" ref={ref}>
+                            <span className={inView ? 'active' : 'not'}>Java EE</span>
+                        </li>
+                        <li className="spring" ref={ref}>
+                            <span className={inView ? 'active' : 'not'}>SpringBoot</span>
+                        </li>
+                        <li className="js" ref={ref}>
+                            <span className={inView ? 'active' : 'not'}>JavaScript</span>
+                        </li>
+                        <li className="ts" ref={ref}>
+                            <span className={inView ? 'active' : 'not'}>TypeScript</span>
+                        </li>
+                        <li className="react" ref={ref}>
+                            <span className={inView ? 'active' : 'not'}>ReactJs <p>{t('skills.react')}</p></span>
+                        </li>
+                        <li className="angular" ref={ref}>
+                            <span className={inView ? 'active' : 'not'}>Angular</span>
+                        </li>
+                    </ul>
                 </section>
             </div>
         </>

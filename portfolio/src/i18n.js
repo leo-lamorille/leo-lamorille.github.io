@@ -73,6 +73,10 @@ const resources = {
                     "time": "June 2018"
                 }
             }
+        },
+        "skills": {
+            "title": "Skills",
+            "react": "(This site is made in ReactJs)"
         }
     }
   },
@@ -144,6 +148,10 @@ const resources = {
                     "time": "Juin 2018"
                 }
             }
+        },
+        "skills": {
+            "title": "Compétences",
+            "react": "(Ce site est réalisé en ReactJs)"
         }
     }
   }
