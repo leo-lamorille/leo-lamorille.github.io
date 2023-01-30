@@ -1,0 +1,26 @@
+{
+    "about": {
+        "job": "Apprentice research engineer"
+    },
+    "professional": {
+        "title": "Professional experience",
+        "kiabi": {
+            "job": "Kiabi – Fullstack Developer trainee",
+            "time": "From July 2021 to Today"
+        },
+        "proxiad": {
+            "bulgaria": {
+                "job": "Proxiad service Center in Plovdiv (Bulgaria) – Web Developer trainee",
+                "time": "From Mai 2022 to July 2022"
+            },
+            "cds": {
+                "job": "Proxiad service Center in Lille – Web Developer trainee",
+                "time": "From September 2020 to July 2021"
+            }
+        },
+        "capso": {
+            "job": "Garbage Collector",
+            "time": "August 2018 and July 2019"
+        }
+    }
+}

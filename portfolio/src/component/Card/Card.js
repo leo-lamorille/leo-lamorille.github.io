@@ -6,14 +6,14 @@ export const Card = ({title, content, time, color, src}) => {
 
     useEffect(() => {
         switch (color) {
-            case 'sunny':
-                setStyle({background: 'linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 50%, rgba(252,176,69,1) 100%'});
+            case 'ocean':
+                setStyle({background: 'linear-gradient(90deg, rgba(3,4,94,1) 0%, rgba(3,4,94,1) 100%)'});
                 return;
             case 'whynter':
                 setStyle({background: 'linear-gradient(90deg, rgba(94,96,206,1) 0%, rgba(86,207,225,1) 50%,  rgba(128,255,219,1) 100%)'});
                 return;
             case 'wood':
-                setStyle({background: 'linear-gradient(90deg, rgba(212,162,118,1) 0%, rgba(111,69,24,1) 50%,  rgba(46,25,0,1) 100%)'});
+                setStyle({background: 'linear-gradient(90deg, rgba(82,183,136,1) 0%, rgba(183,228,199,1) 50%, rgba(97,161,119,1) 100%)'});
                 return;
             default:
                 setStyle({background: 'linear-gradient(90deg, rgba(193,2,86,1) 0%, rgba(0,117,255,1) 100%)'});
