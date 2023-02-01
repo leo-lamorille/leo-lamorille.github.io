@@ -3,34 +3,126 @@
 .navbar-container {
     position: fixed;
     top: 0;
+    right: 0;
     width: 100%;
+    padding: 5px 0;
     display: flex;
     flex-direction: row;
-    text-align: center;
     background-color: #252525;
+    justify-content: flex-end;
     z-index: 100;
 
-    a {  
-        text-decoration: none;
-        font-weight: 600;
-        width: 100%;
-        color: #fff;
-        border-bottom: 2px solid white;
-        padding: 1em 0;
+    #burger {
+        display: none;
+    }
 
-        &:hover {
-            background-color: #4f4f4f;
+    div {
+        label {
+            display: none;
+            font-size: 3rem;
+            color: #fff;
+            margin-right: 20px;
+        }
+    }
+
+    ul {
+        display: flex;
+        width: 100%;
+        justify-content: flex-end;
+        align-items: center;
+        li {
+            list-style: none;
+            display: flex;
+
+            a {
+                text-decoration: none;
+                font-weight: 600;
+                color: #fff;
+                padding: 1em;
+                margin: 0 5px;
+                flex-wrap: nowrap;
+                border-radius: 45px;
+                transition: 500ms ease;
+        
+                &:hover {
+                    background-color: #4f4f4f;
+                }
+            }
         }
     }
 
     .active {
-        background-color: #4f4f4f;
+        background-color: #fff;
+        color: #252525;
+
+        transition: 1s ease;
+
+        &:hover {
+            background-color: #fff;
+        }
     }
 }
 
 
 @media (max-width: 800px) {
     .navbar-container {
-       display: none;
+       justify-content: center;
     }
 }
+
+@media (max-width: 600px) {
+    .navbar-container {
+      display: block;
+      border-bottom: 2px solid #fff;
+  
+      input:not(:checked) ~ ul {
+        display: none;
+      }
+  
+      div {
+        display: flex;
+        width: 100%;
+        justify-content: flex-end;
+  
+        label {
+          display: block;
+          cursor: pointer;
+        }
+      }
+  
+      ul {
+        justify-content: center;
+        flex-direction: column;
+        gap: 0;
+        transition: visibility 1s linear;
+
+        li {
+          padding: 0.8rem;
+  
+          a {
+            color: #fff;
+            border-radius: 0;
+            border-bottom: 2px solid #252525;
+
+
+            &:hover {
+                background-color: #252525;
+                border-bottom: 2px solid #fff;
+            }
+          }
+
+          .active {
+            transition: none;
+            color: #fff;
+            background-color: #252525;
+            border-bottom: 2px solid #fff;
+
+            &:hover {
+                background-color: #252525;
+            }
+          }
+        }
+      }
+    }
+  }
+  

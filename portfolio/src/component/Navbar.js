@@ -7,6 +7,7 @@ export const Navbar = () => {
     const [actifPro, setActifPro] = useState(false);
     const [actifTraining, setActifTraining] = useState(false);
     const [actifSkills, setActifSkills] = useState(false);
+    const [isChecked, setIsChecked] = useState(false);
 
     const { t } = useTranslation(['translation', 'common']);
 
@@ -16,6 +17,7 @@ export const Navbar = () => {
         setActifPro(false);
         setActifTraining(false);
         setActifSkills(false);
+        setIsChecked(false);
     }
 
     const togglePro = () => {
@@ -23,6 +25,7 @@ export const Navbar = () => {
         setActifAbout(false);
         setActifTraining(false);
         setActifSkills(false);
+        setIsChecked(false);
     }
 
     const toggleTraining = () => {
@@ -30,6 +33,7 @@ export const Navbar = () => {
         setActifAbout(false);
         setActifPro(false);
         setActifSkills(false);
+        setIsChecked(false);
     }
 
     const toggleSkills = () => {
@@ -37,14 +41,21 @@ export const Navbar = () => {
         setActifAbout(false);
         setActifPro(false);
         setActifSkills(true);
+        setIsChecked(false);
     }
 
     return (
-        <div className="navbar-container">
-            <a href="#about-container" className={`${actifAbout ? 'active' : ''}`} onClick={toggleAbout}>Home</a>
-            <a href="#professional-container" className={`${actifPro ? 'active' : ''}`} onClick={togglePro}>{t('professional.title')}</a>
-            <a href="#training-container" className={`${actifTraining ? 'active' : ''}`} onClick={toggleTraining}>{t('training.title')}</a>
-            <a href="#skills-container" className={`${actifSkills ? 'active' : ''}`} onClick={toggleSkills}>{t('skills.title')}</a>
-        </div>
+        <nav className="navbar-container">
+            <input type="checkbox" id="burger" name="burger" onChange={(e) => setIsChecked(e.target.checked)} checked={isChecked} />
+            <div>
+                <label htmlFor="burger">☰</label>
+            </div>
+            <ul>
+                <li><a href="#about-container" className={`${actifAbout ? 'active' : ''}`} onClick={toggleAbout}>Home</a></li>
+                <li><a href="#professional-container" className={`${actifPro ? 'active' : ''}`} onClick={togglePro}>{t('professional.title')}</a></li>
+                <li><a href="#training-container" className={`${actifTraining ? 'active' : ''}`} onClick={toggleTraining}>{t('training.title')}</a></li>
+                <li><a href="#skills-container" className={`${actifSkills ? 'active' : ''}`} onClick={toggleSkills}>{t('skills.title')}</a></li>
+            </ul>
+        </nav>
     );
 }

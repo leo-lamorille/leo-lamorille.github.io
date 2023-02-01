@@ -66,12 +66,13 @@
 
         .language-button {
             position: absolute;
-            right: 5%;
-            top: 10%;
             width: 120px;
             height: 50px;
             display: flex;
             gap: 1em;
+            top: auto;
+            bottom: 5%;
+            left: 5%;
 
             .selected {
                 scale: 1.5;
@@ -435,9 +436,6 @@
             .language-button {          
                 width: 30px;
                 height: 30px;
-                top: auto;
-                bottom: 5%;
-                left: 5%;
 
                 img {
                     width: 30px;
@@ -463,6 +461,11 @@
 
 @media screen and (max-width: 900px) {
     .home-container {
+
+        .about-container {
+            font-size: 1.2em;
+        }
+        
         .training-container {
             overflow: hidden;
             display: flex;
