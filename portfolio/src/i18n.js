@@ -53,8 +53,8 @@ const resources = {
         },
         "training": {
             "title": "Training",
-            "bac": "I went through a scientific baccalaureate with a specialization in mathematics.",
-            "geii": "I then prepared for 2 years a DUT GEII.",
+            "bac": "I graduated with a scientific baccalaureate with a concentration in mathematics, then took a two-year course for a DUT in Electrical Engineering and Industrial Computing (GEII).",
+            "geii": "Afterwards, I managed to get a degree in digital computer engineering.",
             "isen": "Finally, I am currently preparing a degree in computer engineering.",
             "card": {
                 "ISEN": {
@@ -128,8 +128,8 @@ const resources = {
         },
         "training": {
             "title": "Formation",
-            "bac": "J'ai passé un baccalauréat scientifique avec une spécialisation en mathématiques.",
-            "geii": "J'ai ensuite préparé pendant 2 ans un DUT GEII.",
+            "bac": "J'ai obtenu un diplôme de baccalauréat scientifique avec une concentration en mathématiques, puis j'ai suivi un cursus de deux ans pour un DUT en Génie Électrique et Informatique Industrielle (GEII).",
+            "geii": "Par la suite, j'ai réussi à obtenir un diplôme d'ingénieur en informatique numérique.",
             "isen": "Enfin, je prépare actuellement un diplôme d'ingénieur en informatique.",
             "card": {
                 "ISEN": {

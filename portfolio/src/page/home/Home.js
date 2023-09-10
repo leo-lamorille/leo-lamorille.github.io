@@ -1,5 +1,5 @@
 import './Home.scss';
-import {useState} from 'react';
+import {useEffect, useRef, useState} from 'react';
 import { useInView } from "react-intersection-observer";
 import { Dialog } from '../../component/Dialog/Dialog';
 import { ReactLogo } from '../../component/Logo/ReactLogo';
@@ -16,6 +16,7 @@ import { useTranslation } from "react-i18next";
 
 
 export const Home = () => {
+    const aboutRef = useRef();
     const [openKiabi, setOpenKiabi] = useState(false);
     const [openProxiad, setOpenProxiad] = useState(false);
     const [openBulgaria, setOpenBulgaria] = useState(false);
@@ -54,11 +55,18 @@ export const Home = () => {
         setOpenProxiad(false);
     }
 
+    const test = (e) => {
+        console.log('pageX' + e.pageX);
+        console.log('pageY'+e.pageY);
+        console.log('cleintX'+e.clientX);
+        console.log('clientY'+e.clientY);
+    }
+
     return (
         <>
             <Navbar />
             <div className="home-container">
-                <section id="about-container" className="about-container">
+                <section id="about-container" className="about-container" ref={aboutRef} onMouseMove={(e) => test(e)} >
                     <div className="wave name">
                         <span style={{"--i" : 1}}>L</span>
                         <span style={{"--i" : 2}}>A</span>
@@ -162,7 +170,6 @@ export const Home = () => {
                                 <h2>{t('training.title')}</h2>
                                 <p>{t('training.bac')}</p>
                                 <p>{t('training.geii')}</p>
-                                <p>{t('training.isen')}</p>
                             </div>
                         </div>
                         <div className="training-content">

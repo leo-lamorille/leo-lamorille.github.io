@@ -8,6 +8,7 @@
     -webkit-user-select: none; /* Safari */
     -ms-user-select: none; /* IE 10 and IE 11 */
     user-select: none; /* Standard syntax */
+    animation: zoom 1s infinite;
 
     .card-div {
         position: relative;
@@ -19,133 +20,101 @@
         animation: closeCard ease 1s;
         box-shadow: 0 10px 20px -5px #000;
 
-        .card-img, .card-back {
-            width: 100%;
-            height: 100%;
-            -webkit-backface-visibility: hidden;
-            backface-visibility: hidden;
-        }
-
         .card-back {
-            height: 100%;
             width: 100%;
-            border-radius: 45px;
-            position: absolute;
-            background: linear-gradient(90deg, rgba(193,2,86,1) 0%, rgba(0,117,255,1) 100%);
-            backface-visibility: hidden;
-            transform: rotateY(180deg);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-
-            & > * {
-                margin: 5%;
-            }
-
-            .time {
-                margin: 2%;
-                text-align: left;
-                font-size: 1em;
-                color: gray;
-            }
+            height: 100%;
         }
         
 
-        .card-img {
+        .card-front {
+            display: flex;
+            flex-direction: column;
             visibility: visible;
             height: 100%;
             align-items: center;
             display: flex;
             border-radius: 45px;
             backface-visibility: hidden;
-            
-            .img {
+            -webkit-backface-visibility: hidden;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-top: 3px solid rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(15px);
+            overflow: hidden;
 
-                border-radius: 45px;
-                position: absolute;
-                display: flex;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                align-items: center;                
-                img {
-                    max-width: 350px;
+            &:hover {
+                transition: all ease-in 50ms;
+                .title {
+                    max-height: 20%;
+                    height: 20%;
+                    transition: 1s;
+                    background-size: cover;
+                    border-bottom: 2px solid #fff;
+
+                }
+
+                .body {
+                    max-width: 100%;
                     max-height: 100%;
-                    width: auto;
+                    height: 100%;
+                    background-size: cover;
+
+                    transition: 1s;
+
+                    p {
+                        display: flex;
+                    }
                 }
             }
 
-            --space: 15%;
-            --posx: 5%;
-            --angle: 133deg;
-            --mx: 50%;
-            --my: 50%;
-            --hyp: 0;
-            --imgsize: 50% 42%;
-
-            .card-shine {
-                position: absolute;
-                --angle: 133deg;
-                --h: 21;
-                --s: 70%;
-                --l: 50%;
+            .title {
+                display: flex;
                 width: 100%;
                 height: 100%;
-                mix-blend-mode: color-dodge;
-                border-radius: 45px;
-                background-image: repeating-linear-gradient( 0deg, rgb(255, 119, 115) calc(var(--space)*1), rgba(255,237,95,1) calc(var(--space)*2), rgba(168,255,95,1) calc(var(--space)*3), rgb(255, 131, 131) calc(var(--space)*4), rgb(255, 120, 120) calc(var(--space)*4), rgb(216, 117, 255) calc(var(--space)*6), rgb(255, 119, 115) calc(var(--space)*8) ), 
-                repeating-linear-gradient( var(--angle), #0e152e 0%, hsl(180, 10%, 60%) 3.8%, hsl(180, 29%, 66%) 4.5%, hsl(180, 10%, 60%) 5.2%, #0e152e 10% , #0e152e 12% ), radial-gradient( farthest-corner circle at var(--mx) var(--my), rgba(0, 0, 0, .1) 12%, rgba(0, 0, 0, .15) 20%, rgba(0, 0, 0, .25) 120% );
-                background-blend-mode: exclusion, hard-light;
-                background-size: var(--imgsize), 200% 700%, 300% 100%, 200% 100%;
-                background-position: center center, 0% var(--posy), var(--posx) var(--posy), var(--posx) var(--posy);
-                filter: brightness(calc((var(--hyp)*0.3) + 0.5)) contrast(2) saturate(1.5);
+                max-height: 100%;
+                justify-content: center;
+                align-items: center;
+                transition: max-height 1s;
+                color: rgba(251, 255, 255, 0.8);
             }
 
-            &::after {
-                position: absolute;
-                content: '';
-                bottom: 10%;
+            .body {
+                display: flex;
+                flex-direction: column;
                 width: 100%;
+                max-height: 0;
+                justify-content: center;
+                align-items: center;
                 text-align: center;
-                color: #000;
-                z-index: 100;
-                font-size: 1.5em;
-                font-weight: 600;
+                color: #fff;
+                transition: all;
+
+                .time {
+                    font-style: italic;
+                }
+
+                p {
+                    display: none;
+                }
             }
         }
     }
 }
 
-@media screen and (min-width: 850px) {
-    .card-container {
-        .card-div {
-            .card-img::after {
-                content: 'HOVER';
-            }
-        }
-        &:hover {
-            .card-div {
-                transform: rotateY(180deg);
-            }
-        }
+@keyframes zoom {
+    0% {
+        transform: scale(100%);
+    } 50% {
+        transform: scale(101%);
+    } 100% {
+        transform: scale(100%);
     }
 }
 
-@media screen and (max-width: 850px) {
-    .card-container {
-        .card-div {
-            animation: rotating 3s infinite;
-        }
-    }
-}
-
-@keyframes rotating {
-    0%, 100% {
-        transform: translateX(0);
-    }
-    50% {
-        transform: translateX(10px);
+@keyframes height-open {
+    from {
+        height: 0;
+    } to {
+        height: 100%;
     }
 }
