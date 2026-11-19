@@ -1,0 +1,103 @@
+---
+interface Props {
+    eyebrow: string; // ex. "01 — Expertise"
+    id?: string; // id du <h2>, utile pour aria-labelledby
+}
+
+const { eyebrow, id } = Astro.props;
+// "01 — Expertise" -> "01", affiché en grand en arrière-plan
+const num = eyebrow.split(" ")[0];
+---
+
+<div class="heading" data-reveal>
+    <span class="heading__num" aria-hidden="true">{num}</span>
+    <div class="heading__text">
+        <span class="heading__eyebrow">{eyebrow}</span>
+        <h2 id={id} class="scroll-fill"><slot /></h2>
+    </div>
+    {Astro.slots.has("action") && <slot name="action" />}
+</div>
+
+<style>
+    /* Mobile : titre puis action, empilés */
+    .heading {
+        position: relative;
+        isolation: isolate;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+    }
+
+    .heading__text {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .heading__eyebrow {
+        font-family: var(--font-mono);
+        font-size: 13px;
+        color: var(--color-accent);
+    }
+
+    h2 {
+        font-size: clamp(28px, 7vw, 48px);
+        line-height: 1.1;
+        letter-spacing: -0.03em;
+    }
+
+    /* Tablette + : action alignée à droite */
+    @media (min-width: 768px) {
+        .heading {
+            flex-direction: row;
+            align-items: flex-end;
+            justify-content: space-between;
+        }
+        .heading__text {
+            gap: 12px;
+        }
+        .heading__eyebrow {
+            font-size: 14px;
+        }
+    }
+
+    /* Grand numéro en contour, derrière le titre */
+    .heading__num {
+        position: absolute;
+        top: 50%;
+        right: 0;
+        z-index: -1;
+        font-family: var(--font-display);
+        font-size: clamp(96px, 22vw, 240px);
+        font-weight: 700;
+        line-height: 1;
+        letter-spacing: -0.05em;
+        color: transparent;
+        -webkit-text-stroke: 1px color-mix(in srgb, var(--color-accent) 28%, transparent);
+        translate: 0 -50%;
+        pointer-events: none;
+        user-select: none;
+    }
+
+    /* Parallaxe : le numéro monte plus vite que le titre */
+    @supports (animation-timeline: view()) {
+        @media (prefers-reduced-motion: no-preference) {
+            .heading__num {
+                animation-name: num-parallax;
+                animation-timing-function: linear;
+                animation-fill-mode: both;
+                animation-timeline: view();
+            }
+        }
+    }
+
+    @keyframes num-parallax {
+        from {
+            translate: 0 20%;
+        }
+        to {
+            translate: 0 -120%;
+        }
+    }
+</style>

@@ -1,0 +1,284 @@
+---
+// Un projet perso : en-tête (description, technos, liens) puis ses éléments.
+import Button from "../ui/Button.astro";
+import ProjectGallery from "./ProjectGallery.astro";
+import ProjectItem from "./ProjectItem.astro";
+import type { Project } from "../../data/projects";
+
+interface Props {
+    project: Project;
+}
+
+const { project } = Astro.props;
+const items = project.items ?? [];
+const slugify = (s: string) => s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^a-z0-9]+/g, "-");
+---
+
+<section id={project.slug} class="project" aria-labelledby={`${project.slug}-title`}>
+    <!-- Carte de couverture : présentation du projet + sommaire -->
+    <div class="project__card" data-reveal>
+        <header class="project__head">
+            <div class="project__intro">
+                <span class="project__kicker">{project.kicker}</span>
+                <h2 id={`${project.slug}-title`} class="scroll-fill">{project.title}</h2>
+            </div>
+
+            <div class="project__about">
+                {project.description.map((text) => <p>{text}</p>)}
+
+                <ul class="project__tags" aria-label="Technologies">
+                    {project.tags.map((tag) => <li>{tag}</li>)}
+                </ul>
+
+                <div class="project__links">
+                    {
+                        project.links.map((link) => (
+                                <Button href={link.href} variant="secondary" target="_blank" rel="noopener noreferrer">
+                                    {link.label}
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                        <path d="M7 17 17 7" />
+                                        <path d="M8 7h9v9" />
+                                    </svg>
+                                </Button>
+                        ))
+                    }
+                </div>
+            </div>
+        </header>
+
+        {
+            items.length > 0 && (
+                        <nav class="project__toc" aria-label={`Sommaire : ${project.title}`}>
+                            <span class="project__toc-label">{items.length} {project.itemsLabel ?? "éléments"}</span>
+                            <ul>
+                                {items.map((item) => (
+                                        <li>
+                                            <a href={`#${slugify(item.name)}`}>{item.name}</a>
+                                        </li>
+                                ))}
+                            </ul>
+                        </nav>
+            )
+        }
+    </div>
+
+    {project.images && project.images.length > 0 && <ProjectGallery images={project.images} caption={project.title} />}
+
+    {
+        items.length > 0 && (
+                    <div class="project__items">
+                        {items.map((item, i) => (
+                                <ProjectItem item={item} index={i} total={items.length} />
+                        ))}
+                    </div>
+        )
+    }
+</section>
+
+<style>
+    /* ---------- Mobile ---------- */
+    .project {
+        display: flex;
+        flex-direction: column;
+        gap: 32px;
+        scroll-margin-top: var(--header-h);
+    }
+
+    /* --- Carte de couverture --- */
+    .project__card {
+        position: relative;
+        isolation: isolate;
+        display: flex;
+        flex-direction: column;
+        gap: 28px;
+        padding: 28px 22px;
+        overflow: clip;
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-lg);
+        background: var(--color-surface);
+    }
+
+    /* Halo menthe dans le coin */
+    .project__card::before {
+        content: "";
+        position: absolute;
+        top: -160px;
+        left: -120px;
+        z-index: -1;
+        width: 520px;
+        height: 520px;
+        border-radius: 50%;
+        background: radial-gradient(
+                circle,
+                color-mix(in srgb, var(--color-accent) 16%, transparent),
+                transparent 65%
+        );
+        pointer-events: none;
+    }
+
+    /* Grille de points, estompée, côté droit */
+    .project__card::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        background-image: radial-gradient(
+                color-mix(in srgb, var(--color-text) 14%, transparent) 1px,
+                transparent 1.6px
+        );
+        background-size: 26px 26px;
+        -webkit-mask-image: radial-gradient(ellipse 60% 80% at 100% 0%, #000 10%, transparent 70%);
+        mask-image: radial-gradient(ellipse 60% 80% at 100% 0%, #000 10%, transparent 70%);
+        pointer-events: none;
+    }
+
+    .project__head {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        gap: 20px;
+    }
+
+    .project__intro {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .project__kicker {
+        font-family: var(--font-mono);
+        font-size: 13px;
+        color: var(--color-accent);
+    }
+
+    h2 {
+        font-size: clamp(32px, 8vw, 56px);
+        line-height: 1.05;
+        letter-spacing: -0.035em;
+    }
+
+    .project__about {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .project__about p {
+        font-size: 16px;
+        line-height: 1.7;
+        color: var(--color-muted);
+    }
+
+    .project__tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        font-family: var(--font-mono);
+        font-size: 12px;
+        color: var(--color-muted);
+    }
+
+    .project__tags li {
+        padding: 5px 10px;
+        border-radius: 6px;
+        background: var(--color-surface-2);
+    }
+
+    .project__links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+
+    /* Sommaire : puces cliquables vers chaque élément, en pied de carte */
+    .project__toc {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        padding-top: 22px;
+        border-top: 1px solid var(--color-border);
+    }
+
+    .project__toc-label {
+        font-family: var(--font-mono);
+        font-size: 12px;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--color-muted);
+    }
+
+    .project__toc ul {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    .project__toc a {
+        display: inline-flex;
+        align-items: center;
+        min-height: 40px;
+        padding: 0 14px;
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-full);
+        background: var(--color-bg);
+        font-size: 14px;
+        transition:
+                border-color 0.2s ease,
+                color 0.2s ease;
+    }
+
+    @media (hover: hover) {
+        .project__toc a:hover {
+            border-color: var(--color-accent);
+            color: var(--color-accent);
+        }
+    }
+
+    .project__items {
+        display: flex;
+        flex-direction: column;
+        gap: 72px;
+    }
+
+    /* ---------- Tablette + ---------- */
+    @media (min-width: 768px) {
+        .project {
+            gap: 72px;
+        }
+
+        .project__card {
+            gap: 36px;
+            padding: 48px;
+            border-radius: var(--radius-xl);
+        }
+
+        .project__kicker {
+            font-size: 14px;
+        }
+
+        .project__about p {
+            font-size: 18px;
+        }
+
+        .project__items {
+            gap: 112px;
+        }
+    }
+
+    /* ---------- Desktop : titre à gauche, description à droite ---------- */
+    @media (min-width: 1024px) {
+        .project__card {
+            padding: 64px;
+        }
+
+        .project__head {
+            grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+            gap: 56px;
+        }
+    }
+</style>

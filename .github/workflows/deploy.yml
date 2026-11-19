@@ -1,0 +1,37 @@
+# Déploie le portfolio Astro (dossier portfolio/) sur GitHub Pages
+# à chaque push sur main. Fichier à placer à la RACINE du dépôt :
+#   .github/workflows/deploy.yml
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  # Permet aussi de lancer le déploiement à la main depuis l'onglet Actions
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Récupère le dépôt
+        uses: actions/checkout@v6
+      - name: Installe, compile et envoie le site
+        uses: withastro/action@v6
+        with:
+          path: ./portfolio # dossier du projet Astro dans le dépôt
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Publie sur GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5

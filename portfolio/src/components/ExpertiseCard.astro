@@ -1,0 +1,210 @@
+---
+import type { ExpertiseIcon } from "../data/site";
+
+interface Props {
+    icon: ExpertiseIcon;
+    title: string;
+    description: string;
+    items: string[];
+    index?: number; // position dans la grille, pour décaler l'apparition
+}
+
+const { icon, title, description, items, index = 0 } = Astro.props;
+---
+
+<article class="card" data-reveal style={`--reveal-delay: ${index * 110}`}>
+    <div class="card__head">
+        <div class="card__icon" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                {
+                    icon === "layout" && (
+                                <Fragment>
+                                    <rect x="3" y="4" width="18" height="16" rx="2" />
+                                    <path d="M3 9h18" />
+                                    <path d="M9 9v11" />
+                                </Fragment>
+                    )
+                }
+                {
+                    icon === "phone" && (
+                                <Fragment>
+                                    <rect x="6" y="2.5" width="12" height="19" rx="2.5" />
+                                    <path d="M11 18h2" />
+                                </Fragment>
+                    )
+                }
+                {
+                    icon === "database" && (
+                                <Fragment>
+                                    <ellipse cx="12" cy="5.5" rx="8" ry="2.5" />
+                                    <path d="M4 5.5v6c0 1.4 3.6 2.5 8 2.5s8-1.1 8-2.5v-6" />
+                                    <path d="M4 11.5v7c0 1.4 3.6 2.5 8 2.5s8-1.1 8-2.5v-7" />
+                                </Fragment>
+                    )
+                }
+                {
+                    icon === "sparkles" && (
+                                <Fragment>
+                                    <path d="M10 3.5l1.6 4.4 4.4 1.6-4.4 1.6L10 15.5l-1.6-4.4L4 9.5l4.4-1.6z" />
+                                    <path d="M18 14l.8 2.2 2.2.8-2.2.8L18 20l-.8-2.2-2.2-.8 2.2-.8z" />
+                                </Fragment>
+                    )
+                }
+                {
+                    icon === "terminal" && (
+                                <Fragment>
+                                    <path d="M4 17l6-6-6-6" />
+                                    <path d="M12 19h8" />
+                                </Fragment>
+                    )
+                }
+            </svg>
+        </div>
+        <h3>{title}</h3>
+    </div>
+
+    <p class="card__desc">{description}</p>
+
+    <ul class="card__list">
+        {items.map((item) => <li>→ {item}</li>)}
+    </ul>
+</article>
+
+<style>
+    /* ---------- Mobile : icône et titre sur la même ligne ---------- */
+    .card {
+        position: relative;
+        /* Fond plein (même couleur que la page) : masque le grand numéro
+           de section qui passe derrière les cartes pendant la parallaxe */
+        background: var(--color-bg);
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        padding: 24px;
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-md);
+        transition:
+                border-color 0.25s ease,
+                background-color 0.25s ease,
+                transform 0.3s var(--ease-out);
+    }
+
+    .card__head {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+    }
+
+    .card__icon {
+        display: flex;
+        flex-shrink: 0;
+        align-items: center;
+        justify-content: center;
+        width: 44px;
+        height: 44px;
+        border-radius: 12px;
+        background: var(--color-surface-2);
+        color: var(--color-accent);
+        transition:
+                background-color 0.25s ease,
+                color 0.25s ease,
+                transform 0.3s var(--ease-out);
+    }
+
+    h3 {
+        font-size: 20px;
+    }
+
+    .card__desc {
+        font-size: 15px;
+        line-height: 1.6;
+        color: var(--color-muted);
+    }
+
+    .card__list {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin: 0;
+        padding: 14px 0 0;
+        border-top: 1px solid var(--color-border);
+        list-style: none;
+        font-family: var(--font-mono);
+        font-size: 13px;
+        color: var(--color-muted);
+    }
+
+    @media (hover: hover) {
+        .card:hover {
+            border-color: color-mix(in srgb, var(--color-accent) 40%, var(--color-border));
+            background: var(--color-surface);
+            transform: translateY(-4px);
+        }
+        .card:hover .card__icon {
+            background: var(--color-accent);
+            color: var(--color-on-accent);
+            transform: rotate(-6deg);
+        }
+    }
+
+    /* Halo menthe qui s'allume quand la carte traverse le milieu de l'écran */
+    .card::before {
+        content: "";
+        position: absolute;
+        inset: -1px;
+        border: 1px solid var(--color-accent);
+        border-radius: inherit;
+        box-shadow: 0 0 40px -12px color-mix(in srgb, var(--color-accent) 55%, transparent);
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    @supports (animation-timeline: view()) {
+        @media (prefers-reduced-motion: no-preference) {
+            .card::before {
+                /* propriétés séparées : le minificateur fusionnerait le raccourci
+                   "animation" avec animation-timeline, ce qui le rendrait invalide */
+                animation-name: card-glow;
+                animation-timing-function: linear;
+                animation-fill-mode: both;
+                animation-timeline: view();
+                animation-range: cover 25% cover 75%;
+            }
+        }
+    }
+
+    @keyframes card-glow {
+        40%,
+        60% {
+            opacity: 1;
+        }
+    }
+
+    /* ---------- Tablette + : icône au-dessus du titre ---------- */
+    @media (min-width: 768px) {
+        .card {
+            gap: 16px;
+            padding: 32px;
+            border-radius: var(--radius-lg);
+        }
+
+        .card__head {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 16px;
+        }
+
+        .card__icon {
+            width: 48px;
+            height: 48px;
+        }
+
+        h3 {
+            font-size: 22px;
+        }
+
+        .card__list {
+            padding-top: 16px;
+        }
+    }
+</style>

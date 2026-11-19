@@ -1,0 +1,153 @@
+---
+import { stack } from "../data/site";
+---
+
+<section class="stack" aria-label="Stack technique">
+  <div class="container stack__inner">
+    <span class="stack__label">Stack</span>
+    <ul class="stack__list">
+      {
+        stack.map((tech, i) => (
+            <li data-reveal style={`--reveal-delay: ${i * 50}`}>
+            <span class="chip" style={`--i: ${i}`}>
+              {tech}
+            </span>
+            </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  /* ---------- Mobile : libellé au-dessus ---------- */
+  .stack {
+    overflow: clip;
+    border-block: 1px solid var(--color-border);
+    background: var(--color-surface);
+  }
+
+  .stack__inner {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding-block: 24px;
+  }
+
+  .stack__label {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+
+  .stack__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .chip {
+    --i: 0; /* position de la puce, redéfinie dans son attribut style */
+    display: inline-block;
+    padding: 7px 12px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-full);
+    font-size: 13px;
+    transition:
+        border-color 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s var(--ease-out);
+  }
+
+  @media (hover: hover) {
+    .chip:hover {
+      border-color: var(--color-accent);
+      color: var(--color-accent);
+      transform: translateY(-2px);
+    }
+  }
+
+  /* Vague de couleur : chaque puce s'allume en menthe à tour de rôle
+     pendant que la bande traverse l'écran */
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .chip {
+        /* propriétés séparées : le minificateur fusionnerait le raccourci
+           "animation" avec animation-timeline, ce qui le rendrait invalide */
+        animation-name: chip-wave;
+        animation-timing-function: linear;
+        animation-fill-mode: both;
+        animation-timeline: view();
+        animation-range: cover calc(22% + var(--i) * 3%) cover calc(42% + var(--i) * 3%);
+      }
+    }
+  }
+
+  /* Parallaxe horizontale : la rangée de puces glisse vers la gauche */
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .stack__list {
+        animation-name: stack-drift;
+        animation-timing-function: linear;
+        animation-fill-mode: both;
+        animation-timeline: view();
+      }
+    }
+  }
+
+  @keyframes stack-drift {
+    from {
+      translate: 48px 0;
+    }
+    to {
+      translate: -48px 0;
+    }
+  }
+
+  @keyframes chip-wave {
+    50% {
+      border-color: var(--color-accent);
+      background: color-mix(in srgb, var(--color-accent) 14%, transparent);
+      color: var(--color-accent);
+    }
+  }
+
+  /* ---------- Tablette + : sur une ligne ---------- */
+  @media (min-width: 768px) {
+    .stack__inner {
+      flex-direction: row;
+      align-items: center;
+      gap: 24px;
+      padding-block: 32px;
+    }
+
+    .stack__label {
+      font-size: 13px;
+    }
+
+    .stack__list {
+      gap: 10px;
+    }
+
+    .chip {
+      padding: 8px 14px;
+      font-size: 14px;
+    }
+  }
+
+  /* Desktop : un peu plus compact pour tenir sur une ligne */
+  @media (min-width: 1024px) {
+    .stack__list {
+      gap: 8px;
+    }
+
+    .chip {
+      padding: 7px 12px;
+    }
+  }
+</style>

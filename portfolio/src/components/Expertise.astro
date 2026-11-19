@@ -1,0 +1,63 @@
+---
+import SectionHeading from "./ui/SectionHeading.astro";
+import ExpertiseCard from "./ExpertiseCard.astro";
+import { expertise } from "../data/site";
+---
+
+<section id="expertise" class="container section expertise" aria-labelledby="expertise-title">
+  <SectionHeading eyebrow="01 — Expertise" id="expertise-title">
+    Du schéma de base à l'écran.
+  </SectionHeading>
+
+  <div class="expertise__grid">
+    {expertise.map((item, i) => <ExpertiseCard {...item} index={i} />)}
+  </div>
+</section>
+
+<style>
+  /* ---------- Mobile : 1 colonne ---------- */
+  .expertise {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+
+  .expertise__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+  }
+
+  /* ---------- Tablette : 2 colonnes, la dernière carte seule prend toute la largeur ---------- */
+  @media (min-width: 768px) {
+    .expertise {
+      gap: 40px;
+    }
+
+    .expertise__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 24px;
+    }
+
+    .expertise__grid > :global(:last-child:nth-child(odd)) {
+      grid-column: 1 / -1;
+    }
+  }
+
+  /* ---------- Desktop : 5 cartes = 3 en haut + 2 en bas ---------- */
+  @media (min-width: 1024px) {
+    .expertise__grid {
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+    }
+
+    .expertise__grid > :global(*) {
+      grid-column: span 2;
+    }
+
+    .expertise__grid > :global(:nth-child(4)),
+    .expertise__grid > :global(:nth-child(5)),
+    .expertise__grid > :global(:last-child:nth-child(odd)) {
+      grid-column: span 3;
+    }
+  }
+</style>

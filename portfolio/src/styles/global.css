@@ -1,0 +1,274 @@
+/* ==========================================================================
+   MOBILE FIRST
+   Les styles de base ciblent le mobile. On enrichit ensuite avec des
+   media queries en min-width uniquement :
+
+     sm  →  @media (min-width: 640px)   grand mobile / petite tablette
+     md  →  @media (min-width: 768px)   tablette
+     lg  →  @media (min-width: 1024px)  desktop
+     xl  →  @media (min-width: 1280px)  grand écran
+
+   (Les variables CSS ne marchent pas dans les media queries,
+   d'où ces valeurs écrites en dur dans chaque composant.)
+   ========================================================================== */
+
+/* ==========================================================================
+   Design tokens — palette « Terminal Mint »
+   ========================================================================== */
+:root {
+    /* Couleurs */
+    --color-bg: #0a0f0d;
+    --color-surface: #101815;
+    --color-surface-2: #17221d;
+    --color-border: #22302a;
+    --color-text: #e6f2ec;
+    --color-muted: #93aa9f;
+    --color-accent: #3ddc97;
+    --color-on-accent: #06120c;
+    --color-accent-2: #f5b83d;
+
+    /* Typographie */
+    --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+    --font-display: "Space Grotesk", var(--font-sans);
+    --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+
+    /* Rayons */
+    --radius-sm: 10px;
+    --radius-md: 14px;
+    --radius-lg: 18px;
+    --radius-xl: 24px;
+    --radius-full: 999px;
+
+    /* Layout (mobile) */
+    --container: 1200px;
+    --gutter: 20px;
+    --header-h: 68px;
+    --section-pt: 64px;
+    --section-pb: 32px;
+}
+
+@media (min-width: 768px) {
+    :root {
+        --gutter: 32px;
+        --header-h: 80px;
+        --section-pt: 96px;
+        --section-pb: 48px;
+    }
+}
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    color-scheme: dark;
+    scroll-behavior: smooth;
+    scroll-padding-top: calc(var(--header-h) + 8px);
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    min-height: 100dvh;
+    background: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-sans);
+    font-size: 16px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* Bloque le scroll quand le menu mobile est ouvert */
+body.no-scroll {
+    overflow: hidden;
+}
+
+h1,
+h2,
+h3,
+p {
+    margin: 0;
+}
+
+h1,
+h2,
+h3 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    overflow-wrap: break-word;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+img,
+svg {
+    display: block;
+    max-width: 100%;
+}
+
+::selection {
+    background: var(--color-accent);
+    color: var(--color-on-accent);
+}
+
+:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+    border-radius: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+        transition: none !important;
+        animation: none !important;
+    }
+}
+
+/* ==========================================================================
+   Animations
+   ========================================================================== */
+:root {
+    --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+@keyframes reveal {
+    from {
+        opacity: 0;
+        transform: translateY(18px);
+    }
+}
+
+/* Entrée au chargement (hero) : <div class="enter" style="--d: 120"> (délai en ms) */
+.enter {
+    animation: reveal 0.8s var(--ease-out) backwards;
+    animation-delay: calc(var(--d, 0) * 1ms);
+}
+
+/* Apparition au scroll : <div data-reveal style="--reveal-delay: 100">
+   - masqué seulement si le JS est dispo (classe .js sur <html>)
+   - "backwards" : une fois l'animation finie, l'élément retrouve ses styles
+     normaux, donc les effets de survol (transform) continuent de marcher */
+.js [data-reveal]:not(.is-visible) {
+    opacity: 0;
+}
+
+.js [data-reveal].is-visible {
+    animation: reveal 0.7s var(--ease-out) backwards;
+    animation-delay: calc(var(--reveal-delay, 0) * 1ms);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .js [data-reveal]:not(.is-visible) {
+        opacity: 1;
+    }
+}
+
+/* ==========================================================================
+   Animations de couleur au scroll
+   CSS natif (scroll-driven animations) : la progression suit le défilement,
+   sans JavaScript. Navigateurs non compatibles ou "mouvement réduit" :
+   on garde simplement le rendu final.
+   ========================================================================== */
+
+/* Titre qui se "remplit" de couleur : une bande menthe balaie le texte,
+   qui passe d'un gris éteint à sa couleur normale.
+   Usage : <h2 class="scroll-fill">…</h2> */
+@supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+        .scroll-fill {
+            color: transparent;
+            background-image: linear-gradient(
+                    90deg,
+                    var(--color-text) 0 40%,
+                    var(--color-accent) 48%,
+                    var(--color-accent-2) 52%,
+                    color-mix(in srgb, var(--color-text) 22%, transparent) 60% 100%
+            );
+            background-size: 260% 100%;
+            background-position: 100% 0;
+            -webkit-background-clip: text;
+            background-clip: text;
+            animation: scroll-fill linear both;
+            animation-timeline: view();
+            animation-range: entry 40% cover 48%;
+        }
+
+        /* Les mots déjà en menthe (.text-accent) gardent leur couleur */
+        .scroll-fill .text-accent {
+            -webkit-text-fill-color: var(--color-accent);
+        }
+    }
+}
+
+@keyframes scroll-fill {
+    to {
+        background-position: 0 0;
+    }
+}
+
+/* ==========================================================================
+   Utilitaires
+   ========================================================================== */
+.container {
+    width: 100%;
+    max-width: var(--container);
+    margin-inline: auto;
+    padding-inline: var(--gutter);
+}
+
+.section {
+    padding-block: var(--section-pt) var(--section-pb);
+}
+
+.mono {
+    font-family: var(--font-mono);
+}
+
+.text-accent {
+    color: var(--color-accent);
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+.skip-link {
+    position: absolute;
+    left: 16px;
+    top: -100px;
+    z-index: 100;
+    padding: 10px 16px;
+    border-radius: var(--radius-sm);
+    background: var(--color-accent);
+    color: var(--color-on-accent);
+    font-weight: 600;
+}
+
+.skip-link:focus {
+    top: 16px;
+}

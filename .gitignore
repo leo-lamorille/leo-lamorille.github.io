@@ -1,0 +1,43 @@
+# ── Build Astro ────────────────────────────────────────────
+dist/
+.astro/
+
+# ── Dépendances ────────────────────────────────────────────
+node_modules/
+.pnpm-store/
+
+# ── Logs ───────────────────────────────────────────────────
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+*.log
+
+# ── Variables d'environnement (ne jamais versionner) ───────
+.env
+.env.*
+!.env.example
+
+# ── Déploiement (Vercel, Netlify) ──────────────────────────
+.vercel/
+.netlify/
+
+# ── IDE ────────────────────────────────────────────────────
+# JetBrains (WebStorm, IntelliJ)
+.idea/
+*.iml
+# VS Code : on garde les réglages partagés utiles
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+
+# ── Système ────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ── Caches divers ──────────────────────────────────────────
+.cache/
+.eslintcache
+.stylelintcache
+*.tsbuildinfo

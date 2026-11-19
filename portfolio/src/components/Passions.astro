@@ -1,0 +1,577 @@
+---
+import { Image } from "astro:assets";
+import SectionHeading from "./ui/SectionHeading.astro";
+import { passions } from "../data/site";
+
+// Égaliseur : hauteurs "pseudo-aléatoires" mais stables d'un build à l'autre
+const bars = Array.from({ length: 28 }, (_, i) => ({
+    h: (0.35 + ((i * 37) % 11) / 16).toFixed(2),
+    d: -((i * 173) % 1100),
+}));
+
+// Extrait de C affiché dans la carte "plugins" (construit ligne par ligne :
+// insensible au formatage de Prettier, comme CodeWindow)
+type Token = { text: string; kind?: "c" | "k" | "f" | "n" };
+const snippet: Token[][] = [
+    [{ text: "// gain.c — extrait", kind: "c" }],
+    [{ text: "void", kind: "k" }, { text: " " }, { text: "process", kind: "f" }, { text: "(" }, { text: "float", kind: "k" }, { text: " *buf, " }, { text: "int", kind: "k" }, { text: " n) {" }],
+    [{ text: "  " }, { text: "for", kind: "k" }, { text: " (" }, { text: "int", kind: "k" }, { text: " i = " }, { text: "0", kind: "n" }, { text: "; i < n; i++)" }],
+    [{ text: "    buf[i] *= gain;" }],
+    [{ text: "}" }],
+];
+---
+
+<section id="passions" class="container section passions" aria-labelledby="passions-title">
+    <SectionHeading eyebrow="03 — Hors du code" id="passions-title">
+        {passions.title}{" "}<span class="text-accent">{passions.titleAccent}</span>
+    </SectionHeading>
+
+    <p class="passions__intro" data-reveal>{passions.intro}</p>
+
+    <div class="passions__grid">
+        {
+            passions.items.map((item, i) => (
+                    <article class={`passion passion--${item.id}`} data-reveal style={`--reveal-delay: ${i * 120}`}>
+                        <div class="passion__visual">
+                            {item.image ? (
+                                    <Image
+                                            class="passion__img"
+                                            src={item.image}
+                                            alt={item.imageAlt ?? ""}
+                                            widths={[400, 700, 1000]}
+                                            sizes="(min-width: 1024px) 380px, (min-width: 768px) 50vw, 100vw"
+                                    />
+                            ) : item.id === "sport" ? (
+                                    <svg class="ecg" viewBox="0 0 400 120" preserveAspectRatio="none" aria-hidden="true">
+                                        <path
+                                                class="ecg__line"
+                                                d="M0 64 H110 L124 64 L134 40 L146 92 L160 14 L174 78 L184 64 H250 L262 64 L270 52 L280 74 L288 64 H400"
+                                        />
+                                    </svg>
+                            ) : item.id === "music" ? (
+                                    <div class="eq" aria-hidden="true">
+                                        {bars.map((b) => (
+                                                <span style={`--h: ${b.h}; --d: ${b.d}ms`} />
+                                        ))}
+                                    </div>
+                            ) : (
+                                    <pre class="snippet" aria-hidden="true"><code>{snippet.map((line) => (<span class="snippet__line">{line.map((t) => t.kind ? <span class={`t-${t.kind}`}>{t.text}</span> : t.text)}</span>))}</code></pre>
+                            )}
+                            <span class="passion__label">{item.label}</span>
+                        </div>
+
+                        <div class="passion__body">
+                            <h3>{item.title}</h3>
+                            <p class="passion__text">{item.text}</p>
+
+                            {item.tags && (
+                                    <ul class="passion__tags">
+                                        {item.tags.map((tag) => (
+                                                <li>{tag}</li>
+                                        ))}
+                                    </ul>
+                            )}
+
+                            {item.disclaimer && (
+                                    <aside class="disclaimer" aria-label="Avertissement">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                            <path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z" />
+                                            <path d="M12 9v4" />
+                                            <path d="M12 17h.01" />
+                                        </svg>
+                                        <p>
+                                            <strong>{item.disclaimer.title}</strong> {item.disclaimer.text}
+                                        </p>
+                                    </aside>
+                            )}
+
+                            {item.link?.preview ? (
+                                    <a
+                                            class="preview"
+                                            href={item.link.href}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            aria-label={`${item.link.label} : ${item.link.preview.title} (nouvel onglet)`}
+                                    >
+                                        <Image
+                                                class="preview__img"
+                                                src={item.link.preview.image}
+                                                alt=""
+                                                widths={[400, 700, 1000]}
+                                                sizes="(min-width: 1024px) 340px, (min-width: 768px) 45vw, 100vw"
+                                        />
+                                        <span class="preview__shade" aria-hidden="true" />
+                                        <span class="preview__content">
+                  <span class="preview__play" aria-hidden="true">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.4-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z" />
+                    </svg>
+                  </span>
+                  <span class="preview__text">
+                    <span class="preview__title">{item.link.preview.title}</span>
+                    <span class="preview__meta">{item.link.preview.meta}</span>
+                  </span>
+                </span>
+                                        <span class="preview__cta" aria-hidden="true">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M7 17 17 7" />
+                    <path d="M8 7h9v9" />
+                  </svg>
+                </span>
+                                    </a>
+                            ) : item.link && (
+                                item.link.href.startsWith("/") ? (
+                                        <a class="passion__link" href={item.link.href}>
+                                            {item.link.label}
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                                <path d="M5 12h14" />
+                                                <path d="m13 6 6 6-6 6" />
+                                            </svg>
+                                        </a>
+                                ) : (
+                                        <a class="passion__link" href={item.link.href} target="_blank" rel="noopener noreferrer">
+                                            {item.link.label}
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                                <path d="M7 17 17 7" />
+                                                <path d="M8 7h9v9" />
+                                            </svg>
+                                        </a>
+                                )
+                            )}
+                        </div>
+                    </article>
+            ))
+        }
+    </div>
+</section>
+
+<style>
+    /* ---------- Mobile ---------- */
+    .passions {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .passions__intro {
+        max-width: 640px;
+        font-size: 16px;
+        line-height: 1.7;
+        color: var(--color-muted);
+    }
+
+    .passions__grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        gap: 16px;
+        margin-top: 8px;
+    }
+
+    .passion {
+        display: flex;
+        flex-direction: column;
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-lg);
+        background: var(--color-surface);
+        overflow: hidden;
+    }
+
+    /* --- Zone visuelle (photo ou animation) --- */
+    .passion__visual {
+        position: relative;
+        height: 170px;
+        background: var(--color-surface-2);
+        border-bottom: 1px solid var(--color-border);
+        overflow: hidden;
+    }
+
+    .passion__visual :global(.passion__img) {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .passion__label {
+        position: absolute;
+        top: 12px;
+        left: 14px;
+        padding: 3px 8px;
+        border-radius: 6px;
+        background: color-mix(in srgb, var(--color-bg) 70%, transparent);
+        font-family: var(--font-mono);
+        font-size: 12px;
+        color: var(--color-muted);
+    }
+
+    /* Sport : tracé de rythme cardiaque qui se dessine en boucle */
+    .ecg {
+        position: absolute;
+        inset: 30px 0 10px;
+        width: 100%;
+        height: calc(100% - 40px);
+    }
+
+    .ecg__line {
+        fill: none;
+        stroke: var(--color-accent);
+        stroke-width: 2.5;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        vector-effect: non-scaling-stroke;
+        /* longueur de tiret en px, plus grande que le tracé le plus long */
+        stroke-dasharray: 1600;
+        stroke-dashoffset: 0; /* tracé complet par défaut (et si animations réduites) */
+        filter: drop-shadow(0 0 6px color-mix(in srgb, var(--color-accent) 60%, transparent));
+        animation: ecg 2.6s linear infinite;
+    }
+
+    @keyframes ecg {
+        0% {
+            stroke-dashoffset: 1600;
+        }
+        70% {
+            stroke-dashoffset: 0;
+            opacity: 1;
+        }
+        100% {
+            stroke-dashoffset: 0;
+            opacity: 0;
+        }
+    }
+
+    /* Techno : égaliseur */
+    .eq {
+        position: absolute;
+        inset: 40px 18px 0;
+        display: flex;
+        align-items: flex-end;
+        gap: 4px;
+    }
+
+    .eq span {
+        /* Valeurs par défaut : chaque barre les redéfinit dans son attribut style */
+        --h: 1;
+        --d: 0ms;
+        flex: 1;
+        height: 100%;
+        border-radius: 3px 3px 0 0;
+        background: linear-gradient(to top, var(--color-accent), var(--color-accent-2));
+        transform-origin: bottom;
+        transform: scaleY(var(--h));
+        animation: eq 0.9s ease-in-out infinite alternate;
+        animation-delay: var(--d);
+        opacity: 0.9;
+    }
+
+    @keyframes eq {
+        from {
+            transform: scaleY(0.12);
+        }
+        to {
+            transform: scaleY(var(--h));
+        }
+    }
+
+    /* Plugins : extrait de code C */
+    .snippet {
+        position: absolute;
+        inset: 44px 16px 0;
+        margin: 0;
+        overflow: hidden;
+        font-family: var(--font-mono);
+        font-size: 12.5px;
+        line-height: 1.75;
+        color: var(--color-text);
+    }
+
+    .snippet__line {
+        display: block;
+        white-space: pre;
+    }
+
+    .t-c {
+        color: var(--color-muted);
+    }
+    .t-k {
+        color: var(--color-accent-2);
+    }
+    .t-f {
+        color: var(--color-accent);
+    }
+    .t-n {
+        color: var(--color-accent);
+    }
+
+    /* --- Texte de la carte --- */
+    .passion__body {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        gap: 12px;
+        padding: 22px;
+    }
+
+    h3 {
+        font-size: 20px;
+        letter-spacing: -0.01em;
+    }
+
+    .passion__text {
+        font-size: 15px;
+        line-height: 1.6;
+        color: var(--color-muted);
+    }
+
+    .passion__tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        font-family: var(--font-mono);
+        font-size: 12px;
+        color: var(--color-muted);
+    }
+
+    .passion__tags li {
+        padding: 4px 10px;
+        border-radius: 6px;
+        background: var(--color-surface-2);
+    }
+
+    /* Disclaimer "chantier" en ambre */
+    .disclaimer {
+        display: flex;
+        gap: 12px;
+        padding: 14px;
+        border: 1px solid color-mix(in srgb, var(--color-accent-2) 45%, transparent);
+        border-radius: var(--radius-sm);
+        background: color-mix(in srgb, var(--color-accent-2) 8%, transparent);
+        color: var(--color-accent-2);
+    }
+
+    .disclaimer svg {
+        flex-shrink: 0;
+        margin-top: 1px;
+    }
+
+    .disclaimer p {
+        font-size: 14px;
+        line-height: 1.55;
+        color: var(--color-text);
+    }
+
+    .disclaimer strong {
+        color: var(--color-accent-2);
+    }
+
+    .passion__link {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        align-self: flex-start;
+        min-height: 44px;
+        margin-top: auto;
+        font-size: 15px;
+        font-weight: 600;
+        color: var(--color-accent);
+    }
+
+    .passion__link svg {
+        transition: transform 0.25s var(--ease-out);
+    }
+
+    @media (hover: hover) {
+        .passion__link:hover svg {
+            transform: translate(2px, -2px);
+        }
+    }
+
+    /* --- Aperçu SoundCloud : la bannière se révèle au survol ---
+       Par défaut : noir et blanc assombri, dans l'ambiance du site.
+       Au survol / focus : le violet de l'univers SoundCloud apparaît. */
+    .preview {
+        --sc-purple: #b13ad6; /* teinte de la bannière SoundCloud */
+        position: relative;
+        isolation: isolate;
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 12px;
+        min-height: 116px;
+        margin-top: auto;
+        padding: 14px 16px;
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-md);
+        overflow: hidden;
+        transition:
+                border-color 0.4s ease,
+                box-shadow 0.4s ease;
+    }
+
+    .preview :global(.preview__img) {
+        position: absolute;
+        inset: 0;
+        z-index: -2;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: 45% 40%;
+        filter: grayscale(1) brightness(0.5) contrast(1.1);
+        transform: scale(1.02);
+        transition:
+                filter 0.5s ease,
+                transform 0.7s var(--ease-out);
+    }
+
+    /* Dégradé pour garder le texte lisible */
+    .preview__shade {
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        background: linear-gradient(
+                90deg,
+                color-mix(in srgb, var(--color-bg) 88%, transparent) 0%,
+                color-mix(in srgb, var(--color-bg) 45%, transparent) 55%,
+                transparent 100%
+        );
+    }
+
+    .preview__content {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        min-width: 0;
+    }
+
+    .preview__play {
+        display: flex;
+        flex-shrink: 0;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        padding-left: 2px;
+        border-radius: var(--radius-full);
+        background: var(--color-accent);
+        color: var(--color-on-accent);
+        transition:
+                background-color 0.4s ease,
+                transform 0.3s var(--ease-out);
+    }
+
+    .preview__text {
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+    }
+
+    .preview__title {
+        font-family: var(--font-display);
+        font-size: 20px;
+        font-weight: 700;
+        line-height: 1.2;
+        color: var(--color-text);
+    }
+
+    .preview__meta {
+        overflow: hidden;
+        font-family: var(--font-mono);
+        font-size: 12px;
+        color: var(--color-muted);
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .preview__cta {
+        display: inline-flex;
+        flex-shrink: 0;
+        align-items: center;
+        padding-bottom: 4px;
+        color: var(--color-text);
+    }
+
+    .preview__cta svg {
+        transition: transform 0.25s var(--ease-out);
+    }
+
+    .preview:focus-visible {
+        outline-offset: 2px;
+    }
+
+    /* Survol (souris) et focus (clavier) : on dévoile la destination */
+    .preview:focus-visible,
+    .preview:hover {
+        border-color: color-mix(in srgb, var(--sc-purple) 60%, transparent);
+        box-shadow: 0 0 32px -10px color-mix(in srgb, var(--sc-purple) 70%, transparent);
+    }
+
+    .preview:focus-visible :global(.preview__img),
+    .preview:hover :global(.preview__img) {
+        filter: grayscale(0) brightness(0.95) saturate(1.15);
+        transform: scale(1.08);
+    }
+
+    .preview:focus-visible .preview__play,
+    .preview:hover .preview__play {
+        background: var(--sc-purple);
+        color: #fff;
+        transform: scale(1.08);
+    }
+
+    .preview:hover .preview__cta svg {
+        transform: translate(2px, -2px);
+    }
+
+    /* Écrans tactiles (pas de survol) : couleurs à moitié visibles */
+    @media (hover: none) {
+        .preview :global(.preview__img) {
+            filter: grayscale(0.35) brightness(0.7);
+        }
+    }
+
+    /* ---------- Tablette : 2 colonnes, la dernière en pleine largeur ---------- */
+    @media (min-width: 768px) {
+        .passions {
+            gap: 24px;
+        }
+
+        .passions__intro {
+            font-size: 18px;
+        }
+
+        .passions__grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 24px;
+        }
+
+        .passion:last-child:nth-child(odd) {
+            grid-column: 1 / -1;
+        }
+
+        .passion__visual {
+            height: 190px;
+        }
+
+        .passion__body {
+            padding: 28px;
+        }
+
+        h3 {
+            font-size: 22px;
+        }
+    }
+
+    /* ---------- Desktop : 3 colonnes ---------- */
+    @media (min-width: 1024px) {
+        .passions__grid {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        .passion:last-child:nth-child(odd) {
+            grid-column: auto;
+        }
+    }
+</style>

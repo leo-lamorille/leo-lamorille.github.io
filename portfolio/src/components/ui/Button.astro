@@ -1,0 +1,84 @@
+---
+import type { HTMLAttributes } from "astro/types";
+
+interface Props extends HTMLAttributes<"a"> {
+    href: string;
+    variant?: "primary" | "secondary";
+    size?: "md" | "lg";
+}
+
+const { href, variant = "primary", size = "md", class: className, ...rest } = Astro.props;
+---
+
+<a href={href} class:list={["btn", `btn--${variant}`, `btn--${size}`, className]} {...rest}>
+    <slot />
+</a>
+
+<style>
+    /* Mobile : cibles tactiles de 48px minimum */
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        min-height: 48px;
+        padding: 10px 18px;
+        border-radius: var(--radius-sm);
+        font-size: 15px;
+        font-weight: 500;
+        line-height: 1.2;
+        text-align: center;
+        overflow-wrap: anywhere;
+        transition:
+                background-color 0.2s ease,
+                border-color 0.2s ease,
+                transform 0.2s ease;
+    }
+
+    .btn--lg {
+        min-height: 52px;
+        padding: 12px 22px;
+        border-radius: 12px;
+        font-size: 16px;
+    }
+
+    .btn--primary {
+        background: var(--color-accent);
+        color: var(--color-on-accent);
+        font-weight: 600;
+    }
+
+    .btn--secondary {
+        border: 1px solid var(--color-border);
+        background: var(--color-surface);
+        color: var(--color-text);
+    }
+
+    .btn :global(svg) {
+        flex-shrink: 0;
+    }
+
+    /* Effets de survol seulement sur les appareils qui ont un vrai hover */
+    @media (hover: hover) {
+        .btn--primary:hover {
+            background: color-mix(in srgb, var(--color-accent) 88%, white);
+            transform: translateY(-1px);
+        }
+        .btn--secondary:hover {
+            border-color: var(--color-muted);
+        }
+    }
+
+    .btn:active {
+        transform: scale(0.98);
+    }
+
+    @media (min-width: 640px) {
+        .btn {
+            white-space: nowrap;
+        }
+        .btn--lg {
+            padding: 0 24px;
+        }
+    }
+</style>

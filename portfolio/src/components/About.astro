@@ -1,0 +1,163 @@
+---
+import SectionHeading from "./ui/SectionHeading.astro";
+import { about } from "../data/site";
+---
+
+<section id="apropos" class="container section about" aria-labelledby="about-title">
+    <div class="about__heading">
+        <SectionHeading eyebrow="02 — À propos" id="about-title">
+            {about.title}
+        </SectionHeading>
+    </div>
+
+    <div class="about__body" data-reveal style="--reveal-delay: 100">
+        {about.paragraphs.map((text) => <p class="about__text">{text}</p>)}
+
+        <dl class="stats">
+            {
+                about.stats.map((stat, i) => (
+                        <div class="stat" data-reveal style={`--reveal-delay: ${200 + i * 100}`}>
+                            <dt>{stat.label}</dt>
+                            <dd>{stat.value}</dd>
+                        </div>
+                ))
+            }
+        </dl>
+    </div>
+
+</section>
+
+<style>
+    /* ---------- Mobile : tout empilé ---------- */
+    .about {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-areas:
+      "heading"
+      "body";
+        gap: 24px;
+    }
+
+    .about__heading {
+        grid-area: heading;
+        min-width: 0;
+    }
+
+    .about__body {
+        grid-area: body;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        min-width: 0;
+    }
+
+    .about__text {
+        font-size: 16px;
+        line-height: 1.7;
+        color: var(--color-muted);
+    }
+
+    /* Stats en liste : valeur à gauche, libellé à droite */
+    .stats {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        gap: 10px;
+        margin: 8px 0 0;
+    }
+
+    .stat {
+        display: flex;
+        flex-direction: row-reverse;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 14px 18px;
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-md);
+        background: var(--color-surface);
+    }
+
+    dt {
+        font-size: 14px;
+        line-height: 1.4;
+        color: var(--color-muted);
+        text-align: right;
+    }
+
+    dd {
+        flex-shrink: 0;
+        margin: 0;
+        font-family: var(--font-display);
+        font-size: 24px;
+        font-weight: 600;
+        color: var(--color-accent);
+    }
+
+    /* Les chiffres s'allument en menthe en entrant dans l'écran */
+    @supports (animation-timeline: view()) {
+        @media (prefers-reduced-motion: no-preference) {
+            dd {
+                /* propriétés séparées : le minificateur fusionnerait le raccourci
+                   "animation" avec animation-timeline, ce qui le rendrait invalide */
+                animation-name: stat-color;
+                animation-timing-function: linear;
+                animation-fill-mode: both;
+                animation-timeline: view();
+                animation-range: entry 60% cover 40%;
+            }
+        }
+    }
+
+    @keyframes stat-color {
+        from {
+            color: color-mix(in srgb, var(--color-text) 30%, transparent);
+        }
+    }
+
+    /* ---------- Grand mobile + : stats en 3 cartes ---------- */
+    @media (min-width: 640px) {
+        .stats {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 16px;
+        }
+
+        .stat {
+            flex-direction: column-reverse;
+            align-items: flex-start;
+            justify-content: flex-end; /* en column-reverse : valeurs alignées en haut */
+            gap: 6px;
+            padding: 20px;
+        }
+
+        dt {
+            text-align: left;
+        }
+
+        dd {
+            font-size: 28px;
+        }
+    }
+
+    /* ---------- Tablette + ---------- */
+    @media (min-width: 768px) {
+        .about {
+            gap: 40px;
+        }
+        .about__body {
+            gap: 20px;
+        }
+        .about__text {
+            font-size: 18px;
+        }
+    }
+
+    /* ---------- Desktop : titre à gauche, texte et stats à droite ---------- */
+    @media (min-width: 1024px) {
+        .about {
+            grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+            grid-template-areas: "heading body";
+            align-items: start;
+            column-gap: 56px;
+        }
+    }
+</style>

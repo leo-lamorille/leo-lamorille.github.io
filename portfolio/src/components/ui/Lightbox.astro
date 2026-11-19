@@ -1,0 +1,118 @@
+---
+// Visionneuse d'images : tout lien <a data-lightbox href="grande-image.webp">
+// de la page s'ouvre en grand dans une boîte de dialogue.
+// Sans JavaScript, le lien ouvre simplement l'image.
+---
+
+<dialog class="lightbox" data-lightbox-dialog aria-label="Image agrandie">
+  <form method="dialog" class="lightbox__bar">
+    <p class="lightbox__caption" data-lightbox-caption></p>
+    <button class="lightbox__close" aria-label="Fermer">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+        <path d="M6 6l12 12M18 6 6 18" />
+      </svg>
+    </button>
+  </form>
+  <img class="lightbox__img" data-lightbox-img alt="" />
+</dialog>
+
+<script>
+  const dialog = document.querySelector<HTMLDialogElement>("[data-lightbox-dialog]");
+  const img = dialog?.querySelector<HTMLImageElement>("[data-lightbox-img]");
+  const caption = dialog?.querySelector<HTMLElement>("[data-lightbox-caption]");
+
+  if (dialog && img && caption) {
+    document.addEventListener("click", (event) => {
+      const link = (event.target as HTMLElement).closest<HTMLAnchorElement>("a[data-lightbox]");
+      // Ctrl/Cmd/Maj + clic : on laisse le navigateur ouvrir l'image dans un onglet
+      if (!link || event.metaKey || event.ctrlKey || event.shiftKey) return;
+      event.preventDefault();
+      img.src = link.href;
+      img.alt = link.dataset.alt ?? "";
+      caption.textContent = link.dataset.caption ?? "";
+      dialog.showModal();
+    });
+
+    // Clic en dehors de l'image (sur le fond) : fermeture
+    dialog.addEventListener("click", (event) => {
+      if (event.target === dialog) dialog.close();
+    });
+
+    dialog.addEventListener("close", () => img.removeAttribute("src"));
+  }
+</script>
+
+<style>
+  .lightbox {
+    width: min(1400px, 94vw);
+    max-width: none;
+    max-height: 94vh;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--color-text);
+    overflow: visible;
+  }
+
+  .lightbox[open] {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    animation: lightbox-in 0.3s var(--ease-out);
+  }
+
+  .lightbox::backdrop {
+    background: color-mix(in srgb, var(--color-bg) 88%, transparent);
+    backdrop-filter: blur(6px);
+  }
+
+  .lightbox__bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin: 0;
+  }
+
+  .lightbox__caption {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--color-muted);
+  }
+
+  .lightbox__close {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-full);
+    background: var(--color-surface);
+    color: var(--color-text);
+    cursor: pointer;
+  }
+
+  .lightbox__close:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+  }
+
+  .lightbox__img {
+    display: block;
+    width: 100%;
+    max-height: calc(94vh - 56px);
+    object-fit: contain;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: #05070a;
+  }
+
+  @keyframes lightbox-in {
+    from {
+      opacity: 0;
+      transform: scale(0.97);
+    }
+  }
+</style>

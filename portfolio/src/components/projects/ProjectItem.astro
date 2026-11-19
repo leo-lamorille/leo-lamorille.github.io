@@ -1,0 +1,152 @@
+---
+// Un élément d'un projet (ex. un plugin) : photo(s) d'un côté, texte de l'autre.
+// Sur desktop, la photo passe à droite un élément sur deux.
+import ProjectGallery from "./ProjectGallery.astro";
+import type { ProjectItem } from "../../data/projects";
+
+interface Props {
+  item: ProjectItem;
+  index: number;
+  total: number;
+}
+
+const { item, index, total } = Astro.props;
+const id = item.name.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^a-z0-9]+/g, "-");
+const pad = (n: number) => String(n).padStart(2, "0");
+---
+
+<article id={id} class:list={["item", { "item--reverse": index % 2 === 1 }]} aria-labelledby={`${id}-title`}>
+  <div class="item__media" data-reveal>
+    <ProjectGallery images={item.images} caption={`${item.name} · ${item.tagline}`} />
+  </div>
+
+  <div class="item__text" data-reveal style="--reveal-delay: 120">
+    <div class="item__meta">
+      <span class="item__index">{pad(index + 1)} / {pad(total)}</span>
+      <span class="item__kind">{item.kind}</span>
+    </div>
+
+    <h3 id={`${id}-title`}>{item.name}</h3>
+    <p class="item__tagline">{item.tagline}</p>
+    <p class="item__desc">{item.description}</p>
+
+    {
+      item.features && (
+        <ul class="item__features">
+          {item.features.map((feature) => (
+            <li>{feature}</li>
+          ))}
+        </ul>
+      )
+    }
+  </div>
+</article>
+
+<style>
+  /* ---------- Mobile : photo puis texte ---------- */
+  .item {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 24px;
+    scroll-margin-top: calc(var(--header-h) + 24px);
+  }
+
+  .item__text {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-width: 0;
+  }
+
+  .item__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+  }
+
+  .item__index {
+    color: var(--color-accent);
+  }
+
+  .item__kind {
+    padding: 3px 10px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-full);
+    color: var(--color-muted);
+  }
+
+  h3 {
+    font-size: clamp(30px, 7vw, 44px);
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+  }
+
+  .item__tagline {
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--color-accent);
+  }
+
+  .item__desc {
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--color-muted);
+  }
+
+  .item__features {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 4px 0 0;
+    padding: 16px 0 0;
+    border-top: 1px solid var(--color-border);
+    list-style: none;
+    font-size: 15px;
+    line-height: 1.5;
+  }
+
+  .item__features li {
+    position: relative;
+    padding-left: 22px;
+  }
+
+  .item__features li::before {
+    content: "→";
+    position: absolute;
+    left: 0;
+    font-family: var(--font-mono);
+    color: var(--color-accent);
+  }
+
+  /* ---------- Tablette + ---------- */
+  @media (min-width: 768px) {
+    .item {
+      gap: 32px;
+    }
+
+    .item__desc {
+      font-size: 17px;
+    }
+  }
+
+  /* ---------- Desktop : côte à côte, en zigzag ---------- */
+  @media (min-width: 1024px) {
+    .item {
+      grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+      align-items: center;
+      gap: 56px;
+    }
+
+    .item--reverse {
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    }
+
+    .item--reverse .item__media {
+      order: 2;
+    }
+  }
+</style>

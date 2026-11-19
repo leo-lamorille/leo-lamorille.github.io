@@ -1,0 +1,349 @@
+---
+import Button from "./ui/Button.astro";
+import { site, nav } from "../data/site";
+
+// Lien actif : la page courante (ex. /projets) est signalée dans le menu
+const path = Astro.url.pathname.replace(/\/$/, "") || "/";
+const isCurrent = (href: string) => !href.includes("#") && href.replace(/\/$/, "") === path;
+---
+
+<header class="header" data-header>
+    <div class="container header__inner">
+        <a href="/" class="logo" aria-label={`${site.name}, accueil`}>
+            <span class="text-accent">&lt;</span>{site.handle}<span class="text-accent">/&gt;</span>
+        </a>
+
+        <button
+                class="burger"
+                type="button"
+                aria-expanded="false"
+                aria-controls="main-nav"
+                data-menu-toggle
+        >
+            <span class="sr-only" data-menu-label>Ouvrir le menu</span>
+            <span class="burger__line" aria-hidden="true"></span>
+            <span class="burger__line" aria-hidden="true"></span>
+        </button>
+
+        <nav id="main-nav" class="nav" aria-label="Navigation principale">
+            <ul class="nav__list">
+                {
+                    nav.map((item) => (
+                            <li>
+                                <a href={item.href} class="nav__link" aria-current={isCurrent(item.href) ? "page" : undefined}>
+                                    {item.label}
+                                </a>
+                            </li>
+                    ))
+                }
+            </ul>
+            <div class="nav__cta">
+                <Button href={`mailto:${site.email}`} variant="secondary">Me contacter</Button>
+            </div>
+        </nav>
+    </div>
+</header>
+
+<script>
+    const header = document.querySelector<HTMLElement>("[data-header]");
+    const toggle = header?.querySelector<HTMLButtonElement>("[data-menu-toggle]");
+    const label = header?.querySelector<HTMLElement>("[data-menu-label]");
+    const nav = header?.querySelector<HTMLElement>("#main-nav");
+
+    if (header && toggle && label && nav) {
+        const setOpen = (open: boolean) => {
+            header.classList.toggle("is-open", open);
+            toggle.setAttribute("aria-expanded", String(open));
+            label.textContent = open ? "Fermer le menu" : "Ouvrir le menu";
+            document.body.classList.toggle("no-scroll", open);
+        };
+
+        toggle.addEventListener("click", () => {
+            setOpen(toggle.getAttribute("aria-expanded") !== "true");
+        });
+
+        // Ferme le menu au clic sur un lien
+        nav.querySelectorAll("a").forEach((link) => {
+            link.addEventListener("click", () => setOpen(false));
+        });
+
+        // Ferme avec Échap et rend le focus au bouton
+        document.addEventListener("keydown", (e) => {
+            if (e.key === "Escape" && header.classList.contains("is-open")) {
+                setOpen(false);
+                toggle.focus();
+            }
+        });
+
+        // Referme si on repasse en desktop
+        window.matchMedia("(min-width: 768px)").addEventListener("change", (e) => {
+            if (e.matches) setOpen(false);
+        });
+    }
+</script>
+
+<style>
+    /* ---------- Mobile ---------- */
+    .header {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        border-bottom: 1px solid var(--color-border);
+        background: color-mix(in srgb, var(--color-bg) 85%, transparent);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+    }
+
+    /* Barre de progression de lecture, dégradé menthe → ambre, suit le scroll */
+    .header::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: -1px;
+        height: 2px;
+        background: linear-gradient(90deg, var(--color-accent), var(--color-accent-2));
+        transform: scaleX(0);
+        transform-origin: left;
+        pointer-events: none;
+    }
+
+    @supports (animation-timeline: scroll()) {
+        @media (prefers-reduced-motion: no-preference) {
+            .header::after {
+                /* propriétés séparées : le minificateur fusionnerait le raccourci
+                   "animation" avec animation-timeline, ce qui le rendrait invalide */
+                animation-name: read-progress;
+                animation-timing-function: linear;
+                animation-fill-mode: both;
+                animation-timeline: scroll(root block);
+            }
+        }
+    }
+
+    @keyframes read-progress {
+        to {
+            transform: scaleX(1);
+        }
+    }
+
+    /* backdrop-filter crée un bloc conteneur pour les éléments "fixed" :
+       on le retire quand le menu est ouvert pour que le panneau couvre l'écran */
+    .header.is-open {
+        background: var(--color-bg);
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+    }
+
+    .header__inner {
+        position: relative;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        min-height: var(--header-h);
+        padding-block: 12px;
+    }
+
+    .logo {
+        display: inline-flex;
+        align-items: center;
+        min-height: 44px;
+        font-family: var(--font-mono);
+        font-size: 15px;
+        font-weight: 500;
+    }
+
+    /* Bouton burger : caché sans JS */
+    .burger {
+        display: none;
+    }
+
+    /* Sans JS : la nav reste visible, en ligne sous le logo */
+    .nav {
+        width: 100%;
+    }
+
+    .nav__list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px 20px;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    .nav__link {
+        display: flex;
+        align-items: center;
+        min-height: 44px;
+        color: var(--color-muted);
+        transition: color 0.2s ease;
+    }
+
+    .nav__cta {
+        display: none;
+    }
+
+    /* ---------- Mobile avec JS : menu burger ---------- */
+    :global(.js) .burger {
+        position: relative;
+        display: inline-flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        width: 44px;
+        height: 44px;
+        margin-right: -10px;
+        padding: 0;
+        border: 0;
+        background: none;
+        color: var(--color-text);
+        cursor: pointer;
+    }
+
+    .burger__line {
+        display: block;
+        width: 22px;
+        height: 2px;
+        border-radius: 2px;
+        background: currentColor;
+        transition: transform 0.25s ease;
+    }
+
+    .header.is-open .burger__line:first-of-type {
+        transform: translateY(4px) rotate(45deg);
+    }
+    .header.is-open .burger__line:last-of-type {
+        transform: translateY(-4px) rotate(-45deg);
+    }
+
+    :global(.js) .nav {
+        display: none;
+        position: fixed;
+        inset: var(--header-h) 0 0 0;
+        flex-direction: column;
+        gap: 32px;
+        padding: 24px var(--gutter) calc(32px + env(safe-area-inset-bottom));
+        background: var(--color-bg);
+        overflow-y: auto;
+    }
+
+    :global(.js) .header.is-open .nav {
+        display: flex;
+    }
+
+    :global(.js) .nav__list {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    :global(.js) .nav__link {
+        min-height: 56px;
+        border-bottom: 1px solid var(--color-border);
+        font-family: var(--font-display);
+        font-size: 24px;
+        font-weight: 500;
+        color: var(--color-text);
+    }
+
+    :global(.js) .nav__cta {
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* ---------- Tablette + : nav en ligne ---------- */
+    @media (min-width: 768px) {
+        .header__inner {
+            flex-wrap: nowrap;
+            gap: 24px;
+        }
+
+        .logo {
+            font-size: 16px;
+        }
+
+        :global(.js) .burger {
+            display: none;
+        }
+
+        .nav,
+        :global(.js) .nav {
+            position: static;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 32px;
+            width: auto;
+            padding: 0;
+            background: none;
+            overflow: visible;
+        }
+
+        .nav__list,
+        :global(.js) .nav__list {
+            flex-direction: row;
+            gap: 28px;
+        }
+
+        .nav__link,
+        :global(.js) .nav__link {
+            min-height: 44px;
+            border: 0;
+            font-family: var(--font-sans);
+            font-size: 15px;
+            font-weight: 400;
+            color: var(--color-muted);
+        }
+
+        /* Soulignement animé au survol (desktop) */
+        .nav__link {
+            position: relative;
+        }
+
+        .nav__link::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 8px;
+            height: 1px;
+            background: var(--color-accent);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.3s var(--ease-out);
+        }
+
+        .nav__cta,
+        :global(.js) .nav__cta {
+            display: block;
+        }
+    }
+
+    .nav__link[aria-current="page"],
+    :global(.js) .nav__link[aria-current="page"] {
+        color: var(--color-accent);
+    }
+
+    @media (hover: hover) {
+        .nav__link:hover {
+            color: var(--color-text);
+        }
+    }
+
+    @media (min-width: 768px) {
+        .nav__link[aria-current="page"]::after {
+            transform: scaleX(1);
+        }
+    }
+
+    @media (hover: hover) and (min-width: 768px) {
+        .nav__link:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+    }
+</style>

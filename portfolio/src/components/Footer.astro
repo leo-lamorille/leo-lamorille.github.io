@@ -1,0 +1,77 @@
+---
+import { site, socials } from "../data/site";
+
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+    <div class="container footer__inner">
+        <ul class="footer__links">
+            {
+                socials.map((s) => (
+                        <li>
+                            <a href={s.href} target="_blank" rel="noopener noreferrer">
+                                {s.label}
+                            </a>
+                        </li>
+                ))
+            }
+            <li><a href="#main">Haut de page ↑</a></li>
+        </ul>
+        <p class="footer__copy">© {year} {site.name} · Construit avec Astro</p>
+    </div>
+</footer>
+
+<style>
+    /* ---------- Mobile : liens au-dessus, copyright en dessous ---------- */
+    .footer {
+        border-top: 1px solid var(--color-border);
+    }
+
+    .footer__inner {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        padding-block: 24px calc(24px + env(safe-area-inset-bottom));
+        font-size: 14px;
+        color: var(--color-muted);
+    }
+
+    .footer__links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0 20px;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        font-family: var(--font-mono);
+        font-size: 13px;
+    }
+
+    .footer__links a {
+        display: inline-flex;
+        align-items: center;
+        min-height: 44px;
+    }
+
+    @media (hover: hover) {
+        .footer__links a:hover {
+            color: var(--color-accent);
+        }
+    }
+
+    /* ---------- Tablette + : sur une ligne ---------- */
+    @media (min-width: 768px) {
+        .footer__inner {
+            flex-direction: row-reverse;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            padding-block: 20px;
+        }
+
+        .footer__links {
+            gap: 0 24px;
+        }
+    }
+</style>

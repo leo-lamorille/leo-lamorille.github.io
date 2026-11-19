@@ -1,0 +1,142 @@
+---
+import { site, heroStack } from "../data/site";
+
+/*
+ * Le code affiché est construit ici, ligne par ligne, avec son indentation
+ * dans les chaînes. Le template ne contient donc aucun espace "significatif" :
+ * Prettier ou l'éditeur peuvent le reformater sans casser l'alignement.
+ *
+ * c = commentaire, k = mot-clé, s = chaîne
+ */
+type Token = { text: string; kind?: "c" | "k" | "s" };
+type Line = Token[];
+
+const str = (value: string): Token => ({ text: `"${value}"`, kind: "s" });
+
+// ["a", "b"] -> "a", "b"
+const list = (items: string[]): Token[] =>
+    items.flatMap((item, i) => (i === 0 ? [str(item)] : [{ text: ", " }, str(item)]));
+
+const half = Math.ceil(heroStack.length / 2);
+const stackA = heroStack.slice(0, half);
+const stackB = heroStack.slice(half);
+
+const lines: Line[] = [
+    [{ text: "// Qui suis-je ?", kind: "c" }],
+    [{ text: "const", kind: "k" }, { text: " dev = {" }],
+    [{ text: "  nom: " }, str(site.name), { text: "," }],
+    [{ text: "  rôle: " }, str(site.role), { text: "," }],
+    ...(stackB.length > 0
+        ? [
+            [{ text: "  stack: [" }, ...list(stackA), { text: "," }],
+            [{ text: "          " }, ...list(stackB), { text: "]," }],
+        ]
+        : [[{ text: "  stack: [" }, ...list(stackA), { text: "]," }]]),
+    [{ text: "  basé: " }, str(site.city), { text: "," }],
+    [{ text: "  ouvertA: [" }, ...list(site.openTo), { text: "]," }],
+    [{ text: "};" }],
+    [],
+    [{ text: "export default", kind: "k" }, { text: " dev;" }],
+];
+
+const lastIndex = lines.length - 1;
+---
+
+<figure class="code" aria-label="Présentation sous forme de code">
+    <figcaption class="code__bar">
+        <span>about.ts</span>
+        <span>TypeScript</span>
+    </figcaption>
+    <!-- prettier-ignore -->
+    <pre class="code__body"><code>{lines.map((line, i) => (<span class="line">{line.map((token) => token.kind ? <span class={token.kind}>{token.text}</span> : token.text)}{i === lastIndex && <span class="cursor" aria-hidden="true" />}</span>))}</code></pre>
+</figure>
+
+<style>
+    /* ---------- Mobile ---------- */
+    .code {
+        margin: 0;
+        min-width: 0;
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-md);
+        background: var(--color-surface);
+        overflow: hidden;
+    }
+
+    .code__bar {
+        display: flex;
+        justify-content: space-between;
+        padding: 12px 16px;
+        border-bottom: 1px solid var(--color-border);
+        font-family: var(--font-mono);
+        font-size: 12px;
+        color: var(--color-muted);
+    }
+
+    .code__body {
+        margin: 0;
+        padding: 16px;
+        overflow-x: auto; /* défilement horizontal si une ligne dépasse */
+        -webkit-overflow-scrolling: touch;
+        font-family: var(--font-mono);
+        font-size: 12.5px;
+        line-height: 1.8;
+        color: var(--color-text);
+    }
+
+    /* Une ligne = un bloc ; les espaces d'indentation sont conservés */
+    .line {
+        display: block;
+        min-height: 1lh; /* garde la hauteur des lignes vides */
+        white-space: pre;
+    }
+
+    .c {
+        color: var(--color-muted);
+    }
+    .k {
+        color: var(--color-accent-2);
+    }
+    .s {
+        color: var(--color-accent);
+    }
+
+    /* Curseur de terminal qui clignote */
+    .cursor {
+        display: inline-block;
+        width: 0.6ch;
+        height: 1.15em;
+        margin-left: 2px;
+        vertical-align: text-bottom;
+        background: var(--color-accent);
+        animation: blink 1.1s steps(1) infinite;
+    }
+
+    @keyframes blink {
+        50% {
+            opacity: 0;
+        }
+    }
+
+    /* ---------- Grand mobile + ---------- */
+    @media (min-width: 640px) {
+        .code {
+            border-radius: var(--radius-lg);
+        }
+        .code__bar {
+            padding: 14px 20px;
+            font-size: 13px;
+        }
+        .code__body {
+            padding: 24px 24px 28px;
+            font-size: 14px;
+            line-height: 1.85;
+        }
+    }
+
+    /* ---------- Desktop ---------- */
+    @media (min-width: 1024px) {
+        .code__body {
+            font-size: 15px;
+        }
+    }
+</style>

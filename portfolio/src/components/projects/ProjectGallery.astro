@@ -1,0 +1,151 @@
+---
+// Une ou plusieurs photos : la première en grand, les suivantes en vignettes.
+// Chaque photo s'ouvre en grand au clic (voir ui/Lightbox.astro).
+import { Image, getImage } from "astro:assets";
+import type { ProjectImage } from "../../data/projects";
+
+interface Props {
+  images: ProjectImage[];
+  caption: string; // légende affichée dans la visionneuse
+  sizes?: string;
+}
+
+const { images, caption, sizes = "(min-width: 1024px) 680px, 100vw" } = Astro.props;
+
+// Version grand format (WebP) ouverte dans la visionneuse
+const full = await Promise.all(
+  images.map((image) => getImage({ src: image.src, width: Math.min(image.src.width, 1800), format: "webp" })),
+);
+
+const [first, ...rest] = images;
+---
+
+<div class="gallery">
+  <a
+    class="shot shot--main"
+    href={full[0].src}
+    data-lightbox
+    data-alt={first.alt}
+    data-caption={caption}
+    aria-label={`Agrandir : ${first.alt}`}
+  >
+    <Image src={first.src} alt={first.alt} widths={[480, 800, 1200]} sizes={sizes} />
+    <span class="shot__zoom" aria-hidden="true">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" />
+      </svg>
+      Agrandir
+    </span>
+  </a>
+
+  {
+    rest.length > 0 && (
+      <div class="thumbs">
+        {rest.map((image, i) => (
+          <a
+            class="shot shot--thumb"
+            href={full[i + 1].src}
+            data-lightbox
+            data-alt={image.alt}
+            data-caption={caption}
+            aria-label={`Agrandir : ${image.alt}`}
+          >
+            <Image src={image.src} alt={image.alt} widths={[240, 400]} sizes="160px" />
+          </a>
+        ))}
+      </div>
+    )
+  }
+</div>
+
+<style>
+  .gallery {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-width: 0;
+  }
+
+  .shot {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: #05070a; /* fond des plugins : les captures en portrait restent harmonieuses */
+    transition:
+      border-color 0.3s ease,
+      box-shadow 0.3s ease;
+  }
+
+  .shot--main {
+    aspect-ratio: 16 / 10;
+  }
+
+  .shot :global(img) {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: transform 0.6s var(--ease-out);
+  }
+
+  .shot__zoom {
+    position: absolute;
+    right: 12px;
+    bottom: 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 10px;
+    border-radius: var(--radius-full);
+    background: color-mix(in srgb, var(--color-bg) 80%, transparent);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--color-text);
+    opacity: 0;
+    transform: translateY(4px);
+    transition:
+      opacity 0.25s ease,
+      transform 0.25s var(--ease-out);
+  }
+
+  .thumbs {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+    gap: 10px;
+  }
+
+  .shot--thumb {
+    aspect-ratio: 16 / 10;
+    border-radius: var(--radius-sm);
+  }
+
+  .shot:focus-visible {
+    outline-offset: 3px;
+  }
+
+  @media (hover: hover) {
+    .shot:hover {
+      border-color: color-mix(in srgb, var(--color-accent) 50%, var(--color-border));
+      box-shadow: 0 0 40px -16px color-mix(in srgb, var(--color-accent) 60%, transparent);
+    }
+
+    .shot:hover :global(img) {
+      transform: scale(1.025);
+    }
+
+    .shot:hover .shot__zoom {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  /* Écrans tactiles : l'indication "Agrandir" reste visible */
+  @media (hover: none) {
+    .shot__zoom {
+      opacity: 1;
+      transform: none;
+    }
+  }
+</style>
