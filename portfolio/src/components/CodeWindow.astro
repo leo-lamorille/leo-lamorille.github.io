@@ -13,7 +13,6 @@ type Line = Token[];
 
 const str = (value: string): Token => ({ text: `"${value}"`, kind: "s" });
 
-// ["a", "b"] -> "a", "b"
 const list = (items: string[]): Token[] =>
     items.flatMap((item, i) => (i === 0 ? [str(item)] : [{ text: ", " }, str(item)]));
 

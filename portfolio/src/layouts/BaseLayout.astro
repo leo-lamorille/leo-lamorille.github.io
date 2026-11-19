@@ -7,12 +7,20 @@ import { site } from "../data/site";
 interface Props {
     title?: string;
     description?: string;
+    image?: string; // image d'aperçu (1200 × 630), chemin dans public/
 }
 
 const {
     title = `${site.name} — ${site.role}`,
     description = site.description,
+    image = "/og-image.png",
 } = Astro.props;
+
+// Les aperçus de liens exigent des URL absolues : on s'appuie sur `site`
+// (astro.config.mjs). Sans `site`, on retombe sur l'URL de la requête.
+const base = Astro.site ?? Astro.url;
+const canonicalURL = new URL(Astro.url.pathname, base);
+const imageURL = new URL(image, base);
 ---
 
 <!doctype html>
@@ -25,9 +33,25 @@ const {
     <meta name="theme-color" content="#0a0f0d" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
+    <link rel="canonical" href={canonicalURL} />
+
+    <!-- Aperçu des liens (WhatsApp, LinkedIn, Slack, Discord, iMessage…) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:locale" content="fr_FR" />
+    <meta property="og:url" content={canonicalURL} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:type" content="website" />
+    <meta property="og:image" content={imageURL} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={`${site.name}, ${site.role} à ${site.city}`} />
+
+    <!-- X / Twitter : grande image -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={imageURL} />
 
     <!-- Indique que le JS est dispo : sans JS, la nav mobile reste visible -->
     <script is:inline>document.documentElement.classList.add("js");</script>
