@@ -130,7 +130,7 @@ export const expertise: {
         title: "Front-end",
         description:
             "Interfaces rapides, accessibles et maintenables, du composant à l'application complète.",
-        items: ["Angular", "React · Next.js", "Astro"],
+        items: ["Angular", "React", "Astro"],
     },
     {
         icon: "phone",
@@ -142,7 +142,7 @@ export const expertise: {
         icon: "database",
         title: "Back-end & données",
         description: "APIs robustes, modélisation des données et logique métier testée.",
-        items: ["Java · Spring Boot", "PostgreSQL", "MongoDB"],
+        items: ["Java · Spring Boot", "Spring Batch", "PostgreSQL", "MongoDB", "MongoDB · chiffrement", "RFID"],
     },
     {
         icon: "terminal",
